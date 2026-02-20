@@ -110,10 +110,9 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        {/* Breathing Visualization */}
+        {/* Tagline */}
         <FadeIn delay={0.6} className="mt-24 flex flex-col items-center">
-          <p className="text-white/40 text-sm mb-8 tracking-widest uppercase">Breathe. Sleep. Awaken.</p>
-          <BreathingCircle size={150} />
+          <p className="text-white/40 text-sm tracking-widest uppercase">Breathe. Sleep. Awaken.</p>
         </FadeIn>
       </div>
     </section>

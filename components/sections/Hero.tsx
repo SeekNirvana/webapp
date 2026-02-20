@@ -116,10 +116,10 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <a
-            href="#pricing"
+            href="/preorder"
             className="group relative px-8 py-4 bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark rounded-full font-medium text-white overflow-hidden transition-transform hover:scale-105"
           >
-            <span className="relative z-10">Begin Your Journey — $99</span>
+            <span className="relative z-10">Pre-Order Now — $99</span>
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-nirvana-cyan to-nirvana-jade"
               initial={{ x: "-100%" }}
@@ -158,12 +158,18 @@ export default function Hero() {
                 <div className="absolute inset-2 rounded-full border border-nirvana-jade/20" />
                 <div className="absolute inset-4 rounded-full border border-nirvana-gold/20" />
 
-                {/* Center Glow */}
-                <div className="absolute inset-8 rounded-full bg-gradient-to-br from-nirvana-cyan/40 to-nirvana-jade/40 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-white">ॐ</div>
-                  </div>
-                </div>
+                {/* Center Logo */}
+                <motion.div 
+                  className="absolute inset-8 rounded-full overflow-hidden bg-nirvana-dark"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img
+                    src="/images/SeekNirvana_Logo.png"
+                    alt="Seek Nirvana"
+                    className="w-full h-full object-cover scale-125"
+                  />
+                </motion.div>
 
                 {/* Orbiting Dots */}
                 {[0, 1, 2].map((i) => (

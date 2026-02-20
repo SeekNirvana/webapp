@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Package } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const navLinks = [
+const homeNavLinks = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Benefits", href: "#benefits" },
   { label: "Technology", href: "#technology" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Pre-Order", href: "#pricing" },
+];
+
+const preorderNavLinks = [
+  { label: "Features", href: "/#features" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Pre-Order", href: "/#pricing" },
 ];
 
 export default function Navigation() {
@@ -18,6 +24,7 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/" || pathname === "/index.html";
+  const isProductPage = pathname?.includes("/product");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,9 +35,13 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Get the correct links based on current page
+  const isPreorderPage = pathname?.includes("/preorder");
+  const navLinks = isPreorderPage ? preorderNavLinks : homeNavLinks;
+
   // For GitHub Pages with basePath, use relative paths from subpages
   const getHref = (anchor: string) => {
-    if (isHomePage) {
+    if (isHomePage || isProductPage) {
       return anchor;
     }
     // When on subpages (privacy, terms), go up one level to home then to anchor
@@ -40,6 +51,12 @@ export default function Navigation() {
   // Logo href - use root path for custom domain
   const getLogoHref = () => {
     return "/";
+  };
+
+  // Product page link
+  const getProductHref = () => {
+    if (isProductPage) return "/";
+    return "/product";
   };
 
   return (
@@ -57,11 +74,15 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
             <a href={getLogoHref()} className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-nirvana-jade to-nirvana-cyan flex items-center justify-center">
-                <span className="text-white font-bold">N</span>
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-nirvana-dark">
+                <img
+                  src="/images/SeekNirvana_Logo.png"
+                  alt="Seek Nirvana"
+                  className="w-full h-full object-cover scale-125"
+                />
               </div>
-              <span className="text-lg font-semibold text-white hidden sm:block">
-                Nirvana
+              <span className="text-xl font-bold text-white hidden sm:block">
+                Seek Nirvana
               </span>
             </a>
 
@@ -70,21 +91,29 @@ export default function Navigation() {
               {navLinks.map((link) => (
                 <a
                   key={link.label}
-                  href={getHref(link.href)}
+                  href={link.href}
                   className="text-sm text-white/70 hover:text-nirvana-cyan transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
+              {isPreorderPage && (
+                <a
+                  href="/"
+                  className="text-sm text-white/70 hover:text-nirvana-cyan transition-colors"
+                >
+                  Home
+                </a>
+              )}
             </nav>
 
             {/* CTA Button */}
             <div className="hidden md:block">
               <a
-                href={getHref("#pricing")}
+                href={isPreorderPage ? "#" : "/preorder"}
                 className="px-5 py-2.5 rounded-full bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white text-sm font-medium hover:shadow-lg hover:shadow-nirvana-jade/20 transition-shadow"
               >
-                Get Nirvana
+                {isPreorderPage ? "Pre-Order — $99" : "Get Nirvana"}
               </a>
             </div>
 
@@ -121,7 +150,7 @@ export default function Navigation() {
                 {navLinks.map((link, index) => (
                   <motion.a
                     key={link.label}
-                    href={getHref(link.href)}
+                    href={link.href}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -131,15 +160,27 @@ export default function Navigation() {
                     {link.label}
                   </motion.a>
                 ))}
+                {isPreorderPage && (
+                  <motion.a
+                    href="/"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: navLinks.length * 0.05 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-xl text-white/80 hover:text-nirvana-cyan py-2 transition-colors"
+                  >
+                    Home
+                  </motion.a>
+                )}
                 <motion.a
-                  href={getHref("#pricing")}
+                  href={isPreorderPage ? "#" : "/preorder"}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="mt-4 px-6 py-3 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-medium text-center"
                 >
-                  Get Nirvana — $99
+                  {isPreorderPage ? "Complete Order" : "Pre-Order — $99"}
                 </motion.a>
               </nav>
             </div>

@@ -101,13 +101,18 @@ export default function Technology() {
                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
               />
 
-              {/* Center Ring */}
-              <div className="absolute inset-24 rounded-full bg-gradient-to-br from-nirvana-dark to-nirvana-darker border border-white/10 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-4xl font-bold gradient-text mb-1">N</div>
-                  <div className="text-xs text-white/40 tracking-widest">NIRVANA</div>
-                </div>
-              </div>
+              {/* Center Logo */}
+              <motion.div 
+                className="absolute inset-24 rounded-full overflow-hidden bg-nirvana-dark border border-white/10"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              >
+                <img
+                  src="/images/SeekNirvana_Logo.png"
+                  alt="Seek Nirvana"
+                  className="w-full h-full object-cover scale-125"
+                />
+              </motion.div>
 
               {/* Sensor Points */}
               {[

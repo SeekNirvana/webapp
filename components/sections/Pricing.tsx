@@ -5,13 +5,11 @@ import { Check, Sparkles, Shield, Truck } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
 
 const features = [
-  "Nirvana Ring (Titanium Edition)",
-  "Wireless charging dock",
+  "Nirvana Ring (Ceramic)",
   "Mobile app (iOS & Android)",
   "Lifetime free updates",
   "1-year warranty",
-  "30-day return policy",
-  "Sanskrit engraving option",
+  "Community Access",
   "Meditation guide access",
 ];
 
@@ -94,12 +92,12 @@ export default function Pricing() {
 
               {/* CTA Button */}
               <motion.a
-                href="#"
+                href="/preorder"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="block w-full py-4 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-semibold text-center text-lg hover:shadow-lg hover:shadow-nirvana-jade/20 transition-shadow"
               >
-                Pre-Order Now — Ships March 2026
+                Pre-Order Now — Ships Q2 2026
               </motion.a>
 
               {/* Trust Badges */}
@@ -121,12 +119,11 @@ export default function Pricing() {
           </motion.div>
         </FadeIn>
 
-        {/* Guarantee */}
+        {/* Movement */}
         <FadeIn delay={0.4} className="mt-12 text-center">
           <p className="text-white/50 text-sm">
-            <span className="text-nirvana-gold">ॐ</span> 30-day money-back
-            guarantee. If Nirvana Ring doesn&apos;t transform your sleep, return
-            it for a full refund.
+            <span className="text-nirvana-gold">ॐ</span> Join the exclusive
+            conscious movement. Awaken your potential with seekers worldwide.
           </p>
         </FadeIn>
       </div>

@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Twitter, Instagram, Github } from "lucide-react";
+import { Mail, Twitter, Github } from "lucide-react";
+import { usePathname } from "next/navigation";
 
-const links = {
+const getLinks = (isHomePage: boolean) => ({
   product: [
-    { label: "Features", href: "#features" },
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Technology", href: "#technology" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "Features", href: isHomePage ? "#features" : "/#features" },
+    { label: "How It Works", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
+    { label: "Technology", href: isHomePage ? "#technology" : "/#technology" },
+    { label: "Pre-Order", href: isHomePage ? "#pricing" : "/#pricing" },
   ],
   company: [
     { label: "About Us", href: "#" },
@@ -22,16 +23,19 @@ const links = {
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
   ],
-};
+});
 
 const socials = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Twitter, href: "https://x.com/SeekNirvanaHQ", label: "X" },
+  { icon: Github, href: "https://github.com/SeekNirvana", label: "GitHub" },
   { icon: Mail, href: "mailto:info@seeknirvana.com", label: "Email" },
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/" || pathname === "/index.html";
+  const links = getLinks(isHomePage);
+
   return (
     <footer className="relative pt-20 pb-8 overflow-hidden">
       {/* Background */}
@@ -43,10 +47,14 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-nirvana-jade to-nirvana-cyan flex items-center justify-center">
-                <span className="text-white font-bold text-lg">N</span>
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-nirvana-dark">
+                <img
+                  src="/images/SeekNirvana_Logo.png"
+                  alt="Seek Nirvana"
+                  className="w-full h-full object-cover scale-125"
+                />
               </div>
-              <span className="text-xl font-semibold text-white">Nirvana</span>
+              <span className="text-2xl font-bold text-white">Seek Nirvana</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-sm">
               Ancient wisdom meets modern technology. Nirvana Ring guides you
@@ -58,6 +66,8 @@ export default function Footer() {
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-white/50 hover:text-nirvana-cyan hover:border-nirvana-cyan/30 transition-colors"
