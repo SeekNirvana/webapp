@@ -17,6 +17,7 @@ import FadeIn from "@/components/animations/FadeIn";
 
 const sections = [
   {
+    id: "information-we-collect",
     icon: Eye,
     title: "Information We Collect",
     content: [
@@ -43,6 +44,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "how-we-protect-your-data",
     icon: Lock,
     title: "How We Protect Your Data",
     content: [
@@ -68,6 +70,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "how-we-use-your-information",
     icon: UserCheck,
     title: "How We Use Your Information",
     content: [
@@ -99,6 +102,37 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "program-privacy",
+    icon: Shield,
+    title: "Program Privacy & Cohort Data Use",
+    content: [
+      "If you apply to or participate in a SeekNirvana cohort or guided program, we may collect additional information to support program delivery, scheduling, safety, and product improvement.",
+      "",
+      "**Program Data We May Collect:**",
+      "• Cohort application details such as your name, email, timezone, attendance preference, and stated goals",
+      "• Wellness-context information you choose to share, such as sleep concerns, dream recall familiarity, current stress patterns, and reflective notes",
+      "• Attendance, participation, and submitted journaling or cohort feedback",
+      "• Device-linked wellness data that you intentionally connect during the program experience",
+      "",
+      "**How Program Data May Be Used:**",
+      "• To review applications and organize cohort placement",
+      "• To personalize cohort guidance, prompts, and support materials",
+      "• To improve curriculum design, safety messaging, and product workflows",
+      "• To develop or refine custom AI systems using de-identified or aggregated patterns only",
+      "",
+      "**No PII In Model Training:**",
+      "• We do not use directly identifying personal information such as your name, email address, phone number, or precise contact details to train AI models",
+      "• We do not intentionally place private cohort applications or raw personal notes into a model training pipeline in identifiable form",
+      "• If cohort-derived data is ever used for model improvement, it is first stripped of direct identifiers and handled under controlled internal processes",
+      "",
+      "**Your Choice Matters:**",
+      "• You should avoid sharing information you do not want reviewed for cohort support",
+      "• You may request deletion of submitted cohort application information, subject to legal and operational retention needs",
+      "• Program participation is optional, and your core legal rights remain governed by this Privacy Policy",
+    ].join("\n"),
+  },
+  {
+    id: "data-storage-and-retention",
     icon: Server,
     title: "Data Storage & Retention",
     content: [
@@ -125,6 +159,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "data-sharing-and-third-parties",
     icon: Globe,
     title: "Data Sharing & Third Parties",
     content: [
@@ -149,6 +184,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "your-privacy-rights",
     icon: Bell,
     title: "Your Privacy Rights",
     content: [
@@ -179,6 +215,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "account-deletion",
     icon: Trash2,
     title: "Account Deletion",
     content: [
@@ -275,7 +312,8 @@ export default function PrivacyContent() {
             <FadeIn key={section.title} delay={index * 0.1}>
               <motion.div
                 whileHover={{ scale: 1.01 }}
-                className="glass-card rounded-2xl p-8"
+                id={section.id}
+                className="glass-card rounded-2xl p-8 scroll-mt-28"
               >
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-nirvana-jade/10 flex items-center justify-center flex-shrink-0">

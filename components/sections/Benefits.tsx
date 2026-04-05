@@ -1,135 +1,115 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, Heart, Brain, Sparkles, Leaf, Infinity } from "lucide-react";
+import { ArrowRight, BookOpen, Compass, MoonStar, Sparkles } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
 
-const benefits = [
+const journeyHighlights = [
   {
-    icon: Clock,
-    title: "Enhanced Longevity",
-    sanskrit: "दीर्घायु",
-    stat: "+23%",
-    statLabel: "Sleep Quality",
+    phase: "Recall",
+    title: "Remember more of the night",
+    icon: BookOpen,
     description:
-      "Optimized restorative sleep patterns support cellular repair, immune function, and healthy aging.",
+      "The first win is often simple: more stable dream memory, clearer fragments, and a stronger sense of continuity across nights.",
   },
   {
-    icon: Heart,
-    title: "Stress Reduction",
-    sanskrit: "शांति",
-    stat: "-40%",
-    statLabel: "Cortisol Levels",
+    phase: "Lucidity",
+    title: "Catch the first lucid moments",
+    icon: MoonStar,
     description:
-      "HRV coherence training decouples you from the cortisol spikes social media deliberately triggers. Less reactivity. More response.",
+      "Cues become easier to notice and awareness can come online for brief but meaningful lucid moments.",
   },
   {
-    icon: Brain,
-    title: "Cognitive Clarity",
-    sanskrit: "प्रज्ञा",
-    stat: "+35%",
-    statLabel: "Mental Focus",
+    phase: "Integration",
+    title: "Carry insight back into the day",
+    icon: Compass,
     description:
-      "Better sleep architecture enhances memory consolidation, creativity, and daytime alertness.",
-  },
-  {
-    icon: Sparkles,
-    title: "Dream Creativity",
-    sanskrit: "कल्पना",
-    stat: "∞",
-    statLabel: "Possibilities",
-    description:
-      "Access the infinite canvas of your subconscious. Solve problems, practice skills, explore worlds.",
-  },
-  {
-    icon: Leaf,
-    title: "Mindful Living",
-    sanskrit: "स्मृति",
-    stat: "24/7",
-    statLabel: "Awareness",
-    description:
-      "Intention doesn't end at sunrise. Biofeedback through the day helps you notice when you're running on autopilot — and choose otherwise.",
-  },
-  {
-    icon: Infinity,
-    title: "Holistic Balance",
-    sanskrit: "समता",
-    stat: "100%",
-    statLabel: "Harmony",
-    description:
-      "Nirvana Ring helps you re-integrate — bringing biological coherence between heart, mind, and lived intention.",
+      "Sleep starts feeling more intentional and the emotional or reflective value of dreams becomes easier to use.",
   },
 ];
 
 export default function Benefits() {
   return (
-    <section id="benefits" className="relative py-32 overflow-hidden">
-      {/* Background */}
+    <section id="journey" className="relative overflow-hidden py-28">
       <div className="absolute inset-0 mandala-pattern opacity-30" />
-      <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-nirvana-gold/20 to-transparent" />
+      <div className="absolute top-1/2 left-0 h-px w-full bg-gradient-to-r from-transparent via-nirvana-gold/20 to-transparent" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <FadeIn className="text-center mb-20">
-          <span className="text-nirvana-gold text-sm tracking-widest uppercase mb-4 block">
-            Life Beyond the Attention Economy
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <FadeIn className="mx-auto max-w-3xl text-center">
+          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-nirvana-gold">
+            Benefits Preview
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-white">Benefits of </span>
-            <span className="gradient-text-gold">Intention</span>
+          <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+            What changes when the system starts working
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-white/60">
-            When you reclaim your attention and live from intention, the downstream effects are measurable — in body, mind, and the quality of your choices.
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/62">
+            The deeper benefits deserve more room than the homepage can give
+            them, so this section now highlights the arc and links to the full
+            breakdown.
           </p>
         </FadeIn>
 
-        {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {benefits.map((benefit, index) => (
-            <FadeIn key={benefit.title} delay={index * 0.1} className="h-full">
-              <motion.div
-                whileHover={{ y: -4 }}
-                className="group relative p-8 rounded-2xl glass-card overflow-hidden h-full"
-              >
-                {/* Hover Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-nirvana-gold/5 to-nirvana-jade/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* Content */}
-                <div className="relative">
-                  {/* Icon & Stat Row */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-nirvana-gold/10 flex items-center justify-center">
-                      <benefit.icon className="w-6 h-6 text-nirvana-gold" />
+        <div className="mt-16 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid gap-4">
+            {journeyHighlights.map((stage, index) => (
+              <FadeIn key={stage.phase} delay={index * 0.1} className="h-full">
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="glass-card h-full rounded-2xl border border-white/10 p-6"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-nirvana-gold/10">
+                      <stage.icon className="h-5 w-5 text-nirvana-gold" />
                     </div>
-                    <div className="text-right">
-                      <div className="text-3xl font-bold gradient-text-gold">
-                        {benefit.stat}
-                      </div>
-                      <div className="text-xs text-white/40 uppercase tracking-wider">
-                        {benefit.statLabel}
-                      </div>
+                    <div>
+                      <p className="text-sm uppercase tracking-[0.28em] text-white/35">
+                        {stage.phase}
+                      </p>
+                      <h3 className="mt-1 text-xl font-semibold text-white">
+                        {stage.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-relaxed text-white/58 sm:text-base">
+                        {stage.description}
+                      </p>
                     </div>
                   </div>
+                </motion.div>
+              </FadeIn>
+            ))}
+          </div>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-white mb-1">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-nirvana-gold/60 text-sm mb-3 font-light tracking-wider">
-                    {benefit.sanskrit}
-                  </p>
-
-                  {/* Description */}
-                  <p className="text-white/60 text-sm leading-relaxed">
-                    {benefit.description}
-                  </p>
+          <FadeIn delay={0.2} className="h-full">
+            <div className="relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl sm:p-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-nirvana-gold/10 via-transparent to-nirvana-jade/10" />
+              <div className="relative">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-nirvana-gold/20 bg-nirvana-gold/10 px-4 py-2 text-sm text-nirvana-gold-light">
+                  <Sparkles className="h-4 w-4" />
+                  फलम् अभ्यासस्य
                 </div>
+                <p className="text-xs tracking-normal text-white/30">
+                  Fruits of practice
+                </p>
+                <p className="text-2xl font-semibold leading-relaxed text-white sm:text-3xl">
+                  Explore the full benefits story, including recall, emotional
+                  clarity, calmer sleep, and what progress can look like over
+                  time.
+                </p>
 
-                {/* Decorative Element */}
-                <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-nirvana-gold/5 to-transparent rounded-tl-full" />
-              </motion.div>
-            </FadeIn>
-          ))}
+                <p className="mt-8 text-sm leading-relaxed text-white/58 sm:text-base">
+                  This keeps the homepage lighter while preserving the richer
+                  explanation for visitors who want to go deeper.
+                </p>
+
+                <a
+                  href="/benefits"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full border border-nirvana-gold/20 bg-nirvana-gold/10 px-6 py-3 text-sm font-medium text-nirvana-gold-light transition-colors hover:bg-nirvana-gold/20"
+                >
+                  Read all benefits
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>

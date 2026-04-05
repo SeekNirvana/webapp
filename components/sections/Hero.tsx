@@ -1,13 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown, MoonStar, Sparkles } from "lucide-react";
 import FloatingElement from "../animations/FloatingElement";
 import GlowEffect from "../animations/GlowEffect";
 
+const proofPoints = [
+  {
+    label: "प्रबोध",
+    text: "Track REM and readiness",
+  },
+  {
+    label: "संकेत",
+    text: "Recognize dreams with subtle cues",
+  },
+  {
+    label: "साधना",
+    text: "Follow a guided 5-day program",
+  },
+];
+
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden aurora-bg mandala-pattern pt-20">
+    <section
+      id="hero"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden aurora-bg mandala-pattern pt-20"
+    >
       {/* Background Glow Effects */}
       <GlowEffect
         color="rgba(0, 212, 255, 0.15)"
@@ -58,9 +76,9 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8"
         >
-          <Sparkles className="w-4 h-4 text-nirvana-gold" />
+          <MoonStar className="w-4 h-4 text-nirvana-gold" />
           <span className="text-sm text-nirvana-gold-light tracking-wide">
-            From Attention → Intention
+            REM-aware lucid dreaming, guided by data
           </span>
         </motion.div>
 
@@ -71,42 +89,51 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight mb-6"
         >
-          <span className="block text-white mb-2">Reclaim Your</span>
-          <span className="gradient-text">Intention</span>
+          <span className="block text-white mb-2">Become Aware</span>
+          <span className="gradient-text">Inside Your Dreams</span>
         </motion.h1>
 
-        {/* Sanskrit Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl sm:text-2xl text-nirvana-gold/80 font-light mb-4 tracking-widest"
+          className="mx-auto max-w-4xl text-lg sm:text-2xl text-white/78 mb-6 leading-relaxed"
         >
-          स्वयं प्रभु
+          SeekNirvana helps you sleep better, remember more dreams, and build
+          lucid dreaming foundations with a smart ring, subtle REM cues, and a
+          guided program.
         </motion.p>
+
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-sm text-white/50 mb-8"
+          className="mx-auto max-w-3xl text-base sm:text-lg text-white/58 mb-10 leading-relaxed"
         >
-          Be the master of your own mind — Upanishads
+          A calmer, clearer way to work with sleep, dreams, and nighttime awareness.
         </motion.p>
 
-        {/* Description */}
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="max-w-2xl mx-auto text-lg sm:text-xl text-white/70 mb-10 leading-relaxed"
+          className="mx-auto mb-10 grid max-w-4xl gap-3 text-left sm:grid-cols-3"
         >
-          Nirvana Ring guides you into{" "}
-          <span className="text-nirvana-cyan">lucid awareness</span>, decodes your{" "}
-          <span className="text-nirvana-jade-light">HRV rhythms</span>, and awakens
-          your <span className="text-nirvana-gold">inner intention</span>.
-          <br className="hidden sm:block" />
-          Where ancient self-mastery meets precision bioscience.
-        </motion.p>
+          {proofPoints.map((point) => (
+            <div
+              key={point.label}
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-xl"
+            >
+              <div className="mb-2 flex items-center gap-2 text-nirvana-cyan">
+                <Sparkles className="h-4 w-4" />
+                <span className="text-xs text-white/45">
+                  {point.label}
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed text-white/72">{point.text}</p>
+            </div>
+          ))}
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
@@ -116,10 +143,10 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <a
-            href="/preorder"
+            href="/programs/5-day-sleep-cohort"
             className="group relative px-8 py-4 bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark rounded-full font-medium text-white overflow-hidden transition-transform hover:scale-105"
           >
-            <span className="relative z-10">Pre-Order Now — $99</span>
+            <span className="relative z-10">Join Program</span>
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-nirvana-cyan to-nirvana-jade"
               initial={{ x: "-100%" }}
@@ -128,12 +155,21 @@ export default function Hero() {
             />
           </a>
           <a
-            href="#how-it-works"
+            href="#problem"
             className="px-8 py-4 rounded-full font-medium text-white/80 border border-white/20 hover:border-nirvana-cyan/50 hover:text-nirvana-cyan transition-all"
           >
-            See How Intention Works
+            See How It Works
           </a>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="mb-16 text-sm uppercase tracking-[0.3em] text-white/35"
+        >
+          Ring + app + dream cues + guided cohort
+        </motion.p>
 
         {/* Product Visual */}
         <FloatingElement delay={0} duration={6}>

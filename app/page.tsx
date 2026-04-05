@@ -1,29 +1,30 @@
+import type { Metadata } from "next";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
-import Features from "@/components/sections/Features";
+import Problem from "@/components/sections/Problem";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Benefits from "@/components/sections/Benefits";
-import QuoteCarousel from "@/components/sections/QuoteCarousel";
-import Gallery from "@/components/sections/Gallery";
-import DownloadApp from "@/components/sections/DownloadApp";
-import Newsletter from "@/components/sections/Newsletter";
 import Technology from "@/components/sections/Technology";
+import Program from "@/components/sections/Program";
 import Pricing from "@/components/sections/Pricing";
 import Footer from "@/components/sections/Footer";
+
+export const metadata: Metadata = {
+  title: "SeekNirvana Ring | Smart Ring for Lucid Dreaming and REM-Aware Sleep Guidance",
+  description:
+    "SeekNirvana helps you train lucid dreaming with a smart ring, REM-aware cueing, sleep data, dream journaling, and a guided 5-day program.",
+};
 
 export default function Home() {
   return (
     <main className="relative">
       <Navigation />
       <Hero />
-      <Features />
+      <Problem />
       <HowItWorks />
       <Benefits />
-      <QuoteCarousel />
-      <Gallery />
-      <DownloadApp />
-      <Newsletter />
       <Technology />
+      <Program />
       <Pricing />
       <Footer />
     </main>

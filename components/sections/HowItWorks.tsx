@@ -1,34 +1,30 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Moon, Brain, Sun } from 'lucide-react'
+import { BellRing, Brain, MoonStar } from 'lucide-react'
 import FadeIn from '../animations/FadeIn'
-import BreathingCircle from '../animations/BreathingCircle'
 
 const steps = [
   {
-    icon: Moon,
+    icon: MoonStar,
     number: '01',
-    title: 'Silence the Noise',
-    sanskrit: 'प्रथम ध्यान',
-    description: 'The day\'s tension fades. Nirvana Ring begins quietly listening — mapping your HRV, temperature, and micro-movements to establish your true biological baseline.',
-    details: ['HRV monitoring begins', 'Stress signature detected', 'Baseline coherence mapped'],
+    title: 'Detect REM Sleep',
+    description: 'The ring tracks sleep signals across the night and identifies when you are most likely to be in a dream state that can support lucid awareness.',
+    details: ['Sleep and HRV signals tracked', 'Likely REM windows identified', 'Best timing selected'],
+  },
+  {
+    icon: BellRing,
+    number: '02',
+    title: 'Deliver Subtle Dream Cues',
+    description: 'At the right moment, SeekNirvana sends a gentle cue designed to enter the dream without fully waking you up.',
+    details: ['Cue timing is personalized', 'Subtle enough to preserve sleep', 'Designed to appear inside the dream'],
   },
   {
     icon: Brain,
-    number: '02',
-    title: 'Read Your Body\'s Signal',
-    sanskrit: 'स्वप्न अवस्था',
-    description: 'Your body speaks in data long before your mind catches up. The ring identifies your REM stage and calculates the exact moment your consciousness is most open to change.',
-    details: ['REM stage identified', 'Coherence window found', 'Optimal timing calculated'],
-  },
-  {
-    icon: Sun,
     number: '03',
-    title: 'Choose Your Reality',
-    sanskrit: 'बोधि प्राप्ति',
-    description: 'A subtle cue — light, vibration, or sound — drops into your dream. You recognise it, become lucid, and step into the role of conscious author of your own experience.',
-    details: ['Customisable dream cues', 'Lucid awareness triggered', 'Intention takes the wheel'],
+    title: 'Recognize the Dream',
+    description: 'You notice the cue, realize you are dreaming, and begin training awareness from inside the experience instead of only remembering it later.',
+    details: ['Awareness switches on', 'Lucid moments become trainable', 'Reflection improves across nights'],
   },
 ]
 
@@ -42,7 +38,7 @@ export default function HowItWorks() {
         {/* Section Header */}
         <FadeIn className="text-center mb-20">
           <span className="text-nirvana-jade-light text-sm tracking-widest uppercase mb-4 block">
-            The Path from Attention to Intention
+            Simple Operating Model
           </span>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-white">How </span>
@@ -50,8 +46,9 @@ export default function HowItWorks() {
             <span className="text-white"> Works</span>
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-white/60">
-            Each night is a reset — a chance to slip out of the attention economy's grip and return to yourself.
-            This is how Nirvana Ring guides that journey.
+            A clear three-step system: detect the right dream window, place a
+            cue into the dream, and help you recognize what is happening while
+            it is still unfolding.
           </p>
         </FadeIn>
 
@@ -80,8 +77,7 @@ export default function HowItWorks() {
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-2xl font-semibold text-white mb-1">{step.title}</h3>
-                    <p className="text-nirvana-jade/60 text-sm mb-4 font-light tracking-wider">{step.sanskrit}</p>
+                    <h3 className="text-2xl font-semibold text-white mb-4">{step.title}</h3>
                     <p className="text-white/60 leading-relaxed mb-6">{step.description}</p>
 
                     {/* Details List */}
@@ -112,7 +108,7 @@ export default function HowItWorks() {
 
         {/* Tagline */}
         <FadeIn delay={0.6} className="mt-24 flex flex-col items-center">
-          <p className="text-white/40 text-sm tracking-widest uppercase">Breathe. Sleep. Awaken.</p>
+          <p className="text-white/40 text-sm tracking-widest uppercase">Detect. Cue. Recognize.</p>
         </FadeIn>
       </div>
     </section>

@@ -54,23 +54,20 @@ export default function Newsletter() {
               {/* Heading */}
               <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                 <span className="text-white">Join the </span>
-                <span className="gradient-text">Intention Economy</span>
+                <span className="gradient-text">Launch Circle</span>
               </h3>
 
-              {/* Sanskrit subtitle */}
-              <p className="text-nirvana-gold/70 text-sm tracking-widest mb-4">
-                ज्ञानम् अमृतम्
-              </p>
-
               {/* Description */}
-              <p className="text-white/60 max-w-xl mx-auto mb-8">
-                Weekly dispatches on reclaiming your mind from the attention economy — HRV science, intention practices, and ancient wisdom for living with purpose in an age of distraction. No spam, only signal.
+              <p className="text-white/60 max-w-2xl mx-auto mb-8 text-base leading-relaxed sm:text-lg">
+                Get launch updates, lucid dreaming practice notes, and early
+                access announcements for the SeekNirvana ring and 5-day guided
+                program. Calm signal only.
               </p>
 
               {/* Form */}
               {!isSubscribed ? (
                 <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <div className="relative flex-1">
                       <input
                         type="email"
@@ -86,7 +83,7 @@ export default function Newsletter() {
                       disabled={isSubmitting}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="px-6 py-4 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-medium flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-nirvana-jade/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-4 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-medium flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-nirvana-jade/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed sm:min-w-[180px]"
                     >
                       {isSubmitting ? (
                         <motion.div
@@ -105,7 +102,7 @@ export default function Newsletter() {
                   </div>
 
                   <p className="text-white/30 text-xs mt-4">
-                    We respect your privacy. Unsubscribe at any time.
+                    We respect your privacy. Unsubscribe any time.
                   </p>
                 </form>
               ) : (
@@ -119,7 +116,7 @@ export default function Newsletter() {
                   </div>
                   <div className="text-center">
                     <p className="text-white font-medium text-lg">Your intention is set</p>
-                    <p className="text-white/50 text-sm">Check your email to confirm subscription</p>
+                    <p className="text-white/50 text-sm">Check your email to confirm your spot in the launch circle</p>
                   </div>
                 </motion.div>
               )}
@@ -128,17 +125,17 @@ export default function Newsletter() {
               <div className="flex items-center justify-center gap-6 mt-8 pt-8 border-t border-white/5">
                 <div className="text-center">
                   <p className="text-2xl font-bold text-nirvana-gold">10K+</p>
-                  <p className="text-white/40 text-xs">Seekers</p>
+                  <p className="text-white/40 text-xs">Interested visitors</p>
                 </div>
                 <div className="w-px h-8 bg-white/10" />
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-nirvana-gold">Weekly</p>
-                  <p className="text-white/40 text-xs">Wisdom</p>
+                  <p className="text-2xl font-bold text-nirvana-gold">Early</p>
+                  <p className="text-white/40 text-xs">Launch updates</p>
                 </div>
                 <div className="w-px h-8 bg-white/10" />
                 <div className="text-center">
                   <p className="text-2xl font-bold text-nirvana-gold">100%</p>
-                  <p className="text-white/40 text-xs">Free</p>
+                  <p className="text-white/40 text-xs">Free to join</p>
                 </div>
               </div>
             </div>

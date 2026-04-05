@@ -2,29 +2,37 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Package } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const homeNavLinks = [
-  { label: "Features", href: "#features" },
+  { label: "Why It Matters", href: "#problem" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Benefits", href: "#benefits" },
-  { label: "Technology", href: "#technology" },
-  { label: "Pre-Order", href: "#pricing" },
+  { label: "Benefits", href: "/benefits" },
+  { label: "Technology", href: "/technology" },
+  { label: "Programs", href: "/programs" },
 ];
 
 const preorderNavLinks = [
-  { label: "Features", href: "/#features" },
-  { label: "Gallery", href: "/#gallery" },
-  { label: "Pre-Order", href: "/#pricing" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Benefits", href: "/benefits" },
+  { label: "Technology", href: "/technology" },
+  { label: "Programs", href: "/programs" },
+];
+
+const detailNavLinks = [
+  { label: "Home", href: "/" },
+  { label: "Benefits", href: "/benefits" },
+  { label: "Technology", href: "/technology" },
+  { label: "Programs", href: "/programs" },
 ];
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === "/" || pathname === "/index.html";
   const isProductPage = pathname?.includes("/product");
+  const isProgramPage = pathname?.startsWith("/programs");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,16 +45,15 @@ export default function Navigation() {
 
   // Get the correct links based on current page
   const isPreorderPage = pathname?.includes("/preorder");
-  const navLinks = isPreorderPage ? preorderNavLinks : homeNavLinks;
-
-  // For GitHub Pages with basePath, use relative paths from subpages
-  const getHref = (anchor: string) => {
-    if (isHomePage || isProductPage) {
-      return anchor;
-    }
-    // When on subpages (privacy, terms), go up one level to home then to anchor
-    return `../${anchor}`;
-  };
+  const isDetailPage =
+    pathname === "/benefits" ||
+    pathname === "/technology" ||
+    pathname?.startsWith("/programs");
+  const navLinks = isPreorderPage
+    ? preorderNavLinks
+    : isDetailPage
+      ? detailNavLinks
+      : homeNavLinks;
 
   // Logo href - use root path for custom domain
   const getLogoHref = () => {
@@ -110,10 +117,10 @@ export default function Navigation() {
             {/* CTA Button */}
             <div className="hidden md:block">
               <a
-                href={isPreorderPage ? "#" : "/preorder"}
+                href="/programs"
                 className="px-5 py-2.5 rounded-full bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white text-sm font-medium hover:shadow-lg hover:shadow-nirvana-jade/20 transition-shadow"
               >
-                {isPreorderPage ? "Pre-Order — $99" : "Get Nirvana"}
+                {isProgramPage ? "Join Program" : "Join Program"}
               </a>
             </div>
 
@@ -173,14 +180,14 @@ export default function Navigation() {
                   </motion.a>
                 )}
                 <motion.a
-                  href={isPreorderPage ? "#" : "/preorder"}
+                  href="/programs"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="mt-4 px-6 py-3 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-medium text-center"
                 >
-                  {isPreorderPage ? "Complete Order" : "Pre-Order — $99"}
+                  Join Program
                 </motion.a>
               </nav>
             </div>

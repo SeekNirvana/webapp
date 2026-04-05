@@ -1,130 +1,145 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Sparkles, Shield, Truck } from "lucide-react";
+import { Check, Shield, Sparkles, Truck } from "lucide-react";
 import FadeIn from "../animations/FadeIn";
 
 const features = [
-  "Nirvana Ring (Ceramic)",
-  "Mobile app (iOS & Android)",
-  "Lifetime free updates",
-  "1-year warranty",
-  "Community Access",
-  "Meditation guide access",
+  {
+    title: "Smart Ring Hardware",
+    description: "Ring and charger included in the launch bundle.",
+  },
+  {
+    title: "Mobile App Companion",
+    description: "Works across iOS and Android.",
+  },
+  {
+    title: "REM Cueing Layer",
+    description: "Sleep insight and lucid-dream timing support.",
+  },
+  {
+    title: "5-Day Program",
+    description: "A structured program to help you begin well.",
+  },
+  {
+    title: "Lifetime Updates",
+    description: "No subscription required.",
+  },
+  {
+    title: "Private Local AI",
+    description: "Your data stays with on-device models.",
+  },
 ];
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="relative py-32 overflow-hidden">
-      {/* Background */}
+    <section id="pricing" className="relative overflow-hidden py-28">
       <div className="absolute inset-0 mandala-pattern opacity-30" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-b from-nirvana-jade/10 to-transparent blur-3xl" />
+      <div className="absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-nirvana-jade/10 to-transparent blur-3xl" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-16">
-          <span className="text-nirvana-jade-light text-sm tracking-widest uppercase mb-4 block">
-            Begin Your Journey
+          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-nirvana-jade-light">
+            Ready To Go Deeper
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-white">Own Your </span>
-            <span className="gradient-text">Nirvana</span>
+          <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+            Pre-order the ring
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-white/60">
-            One investment. Infinite dreams. No subscriptions, no hidden fees—
-            just pure, unbounded consciousness.
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/62">
+            The program above explains the method. This section is for the
+            product itself: what the ring includes, what ships with it, and the
+            launch pricing for early supporters.
           </p>
         </FadeIn>
 
-        {/* Pricing Card */}
         <FadeIn delay={0.2}>
           <motion.div
             whileHover={{ scale: 1.01 }}
-            className="relative max-w-2xl mx-auto"
+            className="relative mx-auto max-w-4xl"
           >
-            {/* Glow Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-nirvana-jade via-nirvana-cyan to-nirvana-jade rounded-3xl blur opacity-20" />
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-nirvana-jade via-nirvana-cyan to-nirvana-jade blur opacity-20" />
 
-            <div className="relative p-8 sm:p-12 rounded-3xl glass-card border border-nirvana-jade/20">
-              {/* Badge */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark">
-                <span className="text-white text-sm font-medium tracking-wide">
-                  Limited Launch Offer
+            <div className="relative rounded-3xl border border-nirvana-jade/20 glass-card p-8 sm:p-12">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark px-6 py-2">
+                <span className="text-sm font-medium tracking-wide text-white">
+                  Launch Offer
                 </span>
               </div>
 
-              {/* Price */}
-              <div className="text-center pt-4 mb-8">
-                <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-5xl sm:text-6xl font-bold text-white">
-                    $99
-                  </span>
-                  <span className="text-white/40 line-through text-xl">
-                    $199
-                  </span>
+              <div className="grid gap-10 pt-4 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.3em] text-white/35">
+                    One-time payment
+                  </p>
+                  <div className="mt-4 flex items-baseline gap-2">
+                    <span className="text-5xl font-bold text-white sm:text-6xl">$99</span>
+                    <span className="text-xl text-white/40 line-through">$199</span>
+                  </div>
+                  <p className="mt-3 text-nirvana-jade-light">
+                    No subscription. One device, one app, one guided path into
+                    better sleep and health.
+                  </p>
+
+                  <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                    <a
+                      href="/preorder"
+                      className="block rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark px-6 py-4 text-center text-lg font-semibold text-white transition-shadow hover:shadow-lg hover:shadow-nirvana-jade/20"
+                    >
+                      Pre-Order
+                    </a>
+
+                    <a
+                      href="/programs/5-day-sleep-cohort"
+                      className="block rounded-xl border border-white/10 px-6 py-4 text-center font-medium text-white/78 transition-colors hover:border-nirvana-cyan/40 hover:text-nirvana-cyan"
+                    >
+                      View Program
+                    </a>
+                  </div>
                 </div>
-                <p className="text-nirvana-jade-light mt-2">
-                  One-time payment. No subscription.
-                </p>
+
+                <div>
+                  <p className="text-sm uppercase tracking-[0.3em] text-white/35">
+                    What you get
+                  </p>
+                  <div className="mt-6 grid gap-3.5 md:grid-cols-2">
+                    {features.map((feature) => (
+                      <div
+                        key={feature.title}
+                        className="flex min-h-[112px] items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 sm:px-5"
+                      >
+                        <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-nirvana-jade/20">
+                          <Check className="h-3 w-3 text-nirvana-jade" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-white/90 sm:text-base">
+                            {feature.title}
+                          </p>
+                          <p className="mt-1 text-xs leading-relaxed text-white/48 sm:text-sm">
+                            {feature.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Divider */}
-              <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8" />
-
-              {/* Features */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={feature}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="w-5 h-5 rounded-full bg-nirvana-jade/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-nirvana-jade" />
-                    </div>
-                    <span className="text-white/80 text-sm">{feature}</span>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* CTA Button */}
-              <motion.a
-                href="/preorder"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="block w-full py-4 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark text-white font-semibold text-center text-lg hover:shadow-lg hover:shadow-nirvana-jade/20 transition-shadow"
-              >
-                Pre-Order Now — Ships Q2 2026
-              </motion.a>
-
-              {/* Trust Badges */}
-              <div className="flex items-center justify-center gap-6 mt-6">
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Shield className="w-4 h-4" />
-                  <span>Secure Payment</span>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-6 border-t border-white/10 pt-6">
+                <div className="flex items-center gap-2 text-xs text-white/45">
+                  <Shield className="h-4 w-4" />
+                  <span>Secure checkout</span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Truck className="w-4 h-4" />
-                  <span>Free Shipping</span>
+                <div className="flex items-center gap-2 text-xs text-white/45">
+                  <Truck className="h-4 w-4" />
+                  <span>Free shipping</span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Premium Quality</span>
+                <div className="flex items-center gap-2 text-xs text-white/45">
+                  <Sparkles className="h-4 w-4" />
+                  <span>Premium launch build</span>
                 </div>
               </div>
             </div>
           </motion.div>
-        </FadeIn>
-
-        {/* Movement */}
-        <FadeIn delay={0.4} className="mt-12 text-center">
-          <p className="text-white/50 text-sm">
-            <span className="text-nirvana-gold">ॐ</span> Join the exclusive
-            conscious movement. Awaken your potential with seekers worldwide.
-          </p>
         </FadeIn>
       </div>
     </section>

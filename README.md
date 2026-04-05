@@ -1,29 +1,26 @@
-# Seek Nirvana 🧘‍♂️💍
+# Seek Nirvana
 
-> **Ancient Wisdom × AI Technology**  
-> Smart ring for lucid dreaming, mindfulness, and longevity.
+> Smart ring for lucid dreaming, REM-aware sleep guidance, and guided dream practice.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/) [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
-
-![Nirvana Ring Preview](public/images/preview.png)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/) [![License](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 
 ## 🌟 Overview
 
-**Nirvana Ring** is an affordable smart ring ($99) that guides users toward lucid dreams, tracks vitality, and awakens inner consciousness. This repository contains the Next.js frontend for the product landing page.
+**SeekNirvana** is an affordable smart ring ($99) designed to help users train lucid dreaming through REM-aware cueing, sleep data, dream journaling, and a guided onboarding flow. This repository contains the Next.js frontend for the marketing site and preorder funnel.
 
 ### Key Features
 
-- 🔮 **Lucid Dreaming** - Advanced REM detection with customizable cues (lights, sounds, vibrations)
-- 💚 **Vitality Tracking** - HRV, temperature, and movement monitoring
-- 🧠 **Mindful AI** - Personalized meditation guidance
-- 📊 **Sleep Alchemy** - Optimize restorative sleep patterns
-- 🔒 **Sacred Privacy** - No data selling, no subscriptions
+- REM-aware lucid dreaming guidance
+- Sleep and readiness insight layer
+- Dream journaling and pattern tracking
+- Guided 5-day onboarding program
+- Private data ownership with no subscription
 
 ## 🛠️ Tech Stack
 
 | Category | Technology |
 |----------|------------|
-| Framework | [Next.js 15](https://nextjs.org/) (App Router) |
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
 | Language | [TypeScript](https://www.typescriptlang.org/) |
 | Styling | [Tailwind CSS](https://tailwindcss.com/) |
 | Animation | [Framer Motion](https://www.framer.com/motion/) |
@@ -47,12 +44,16 @@
 │   │   └── ...
 │   └── sections/          # Page sections
 │       ├── Hero.tsx
-│       ├── Features.tsx
+│       ├── Problem.tsx
+│       ├── LucidDreaming.tsx
+│       ├── WhyPeopleFail.tsx
+│       ├── SeekNirvanaSystem.tsx
 │       ├── HowItWorks.tsx
 │       ├── Benefits.tsx
-│       ├── QuoteCarousel.tsx
-│       ├── Newsletter.tsx
 │       ├── Technology.tsx
+│       ├── Program.tsx
+│       ├── TrustLayer.tsx
+│       ├── Newsletter.tsx
 │       ├── Pricing.tsx
 │       └── Footer.tsx
 ├── lib/
@@ -77,11 +78,6 @@
 | Gold | `#c9a227` | Secondary accent (wisdom) |
 | Cyan | `#00d4ff` | Tertiary accent (technology) |
 
-### Typography
-
-- **Font Family:** Inter (system-ui fallback)
-- **Weights:** 300 (light), 400 (normal), 500 (medium), 600 (semibold), 700 (bold)
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -93,8 +89,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/nirvana-ring.git
-cd nirvana-ring
+git clone https://github.com/yourusername/seeknirvana-webapp.git
+cd seeknirvana-webapp
 
 # Install dependencies
 pnpm install
@@ -144,9 +140,10 @@ NEXT_PUBLIC_GA_ID=your_google_analytics_id
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Create production build |
-| `pnpm start` | Start production server |
+| `npm run dev` | Start development server |
+| `npm run lint` | Run TypeScript-based validation |
+| `npm run build` | Create production build |
+| `npm run start` | Start production server |
 
 ## 📄 Pages
 

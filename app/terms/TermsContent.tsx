@@ -17,6 +17,7 @@ import FadeIn from "@/components/animations/FadeIn";
 
 const sections = [
   {
+    id: "agreement-to-terms",
     icon: FileText,
     title: "Agreement to Terms",
     content: [
@@ -33,6 +34,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "use-of-services",
     icon: Scale,
     title: "Use of Services",
     content: [
@@ -66,6 +68,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "health-and-medical-disclaimer",
     icon: HeartPulse,
     title: "Health & Medical Disclaimer",
     content: [
@@ -95,6 +98,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "data-and-privacy",
     icon: ShieldAlert,
     title: "Data & Privacy",
     content: [
@@ -127,6 +131,37 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "program-terms",
+    icon: Scale,
+    title: "Program Participation, Waiver & Indemnity",
+    content: [
+      "The SeekNirvana 5-day cohort and future guided programs are optional wellness experiences. By applying for or participating in a program, you agree to the following program-specific conditions in addition to the rest of these Terms.",
+      "",
+      "**Program Participation Commitments:**",
+      "• You agree to provide accurate application details and not impersonate another person",
+      "• You understand the program is structured around live participation across five days, and you should join only if you can make a good-faith effort to attend",
+      "• You remain responsible for your own physical, emotional, and scheduling boundaries during any session, reflection, movement, breathwork, or sleep-related practice",
+      "",
+      "**Program Data & AI Notice:**",
+      "• Program applications, session feedback, reflective entries, and cohort interactions may be collected to operate the program and improve the experience",
+      "• SeekNirvana may use de-identified and non-PII program data to improve internal systems, including custom model development",
+      "• SeekNirvana does not use your directly identifying personal information as training data for AI models",
+      "",
+      "**Waiver of Liability:**",
+      "• You understand that the program is educational and wellness-oriented, not medical or psychological treatment",
+      "• You voluntarily participate at your own risk and are responsible for deciding what practices are appropriate for you",
+      "• You agree not to participate in ways that are unsafe for your medical, mental-health, or sleep circumstances",
+      "",
+      "**Indemnity:**",
+      "• To the maximum extent permitted by law, you agree to indemnify, defend, and hold harmless SeekNirvana, its team, contractors, and affiliates from claims, losses, damages, liabilities, and expenses arising from your misuse of the program, your breach of these Terms, or your violation of another person's rights",
+      "",
+      "**No Guarantee Of Outcome:**",
+      "• We do not guarantee attendance results, lucid dreams, sleep improvements, emotional outcomes, or any specific transformation from cohort participation",
+      "• Missed sessions, personal readiness, life stress, and health factors can materially affect outcomes",
+    ].join("\n"),
+  },
+  {
+    id: "intellectual-property",
     icon: Ban,
     title: "Intellectual Property",
     content: [
@@ -158,6 +193,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "purchases-returns-and-warranty",
     icon: Gavel,
     title: "Purchases, Returns & Warranty",
     content: [
@@ -196,6 +232,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "limitations-of-liability-and-indemnification",
     icon: AlertTriangle,
     title: "Limitations of Liability & Indemnification",
     content: [
@@ -235,6 +272,7 @@ const sections = [
     ].join("\n"),
   },
   {
+    id: "governing-law-and-dispute-resolution",
     icon: Mail,
     title: "Governing Law & Dispute Resolution",
     content: [
@@ -346,7 +384,8 @@ export default function TermsContent() {
             <FadeIn key={section.title} delay={index * 0.1}>
               <motion.div
                 whileHover={{ scale: 1.01 }}
-                className="glass-card rounded-2xl p-8"
+                id={section.id}
+                className="glass-card rounded-2xl p-8 scroll-mt-28"
               >
                 <div className="flex items-start gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-nirvana-gold/10 flex items-center justify-center flex-shrink-0">

@@ -5,23 +5,17 @@ import { Mail, Twitter, Github } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const getLinks = (isHomePage: boolean) => ({
-  product: [
-    { label: "Features", href: isHomePage ? "#features" : "/#features" },
+  explore: [
     { label: "How It Works", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
-    { label: "Technology", href: isHomePage ? "#technology" : "/#technology" },
-    { label: "Pre-Order", href: isHomePage ? "#pricing" : "/#pricing" },
-  ],
-  company: [
-    { label: "About Us", href: "#" },
-    { label: "Research", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Press Kit", href: "#" },
+    { label: "Benefits", href: "/benefits" },
+    { label: "Technology", href: "/technology" },
+    { label: "Programs", href: "/programs" },
   ],
   support: [
-    { label: "Help Center", href: "#" },
-    { label: "Contact", href: "mailto:support@seeknirvana.com" },
+    { label: "Pre-Order", href: "/preorder" },
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
+    { label: "Contact", href: "mailto:support@seeknirvana.com" },
   ],
 });
 
@@ -43,9 +37,9 @@ export default function Footer() {
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 gap-12 mb-16 md:grid-cols-2 lg:grid-cols-[1.4fr_0.7fr_0.7fr]">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-nirvana-dark">
                 <img
@@ -57,9 +51,8 @@ export default function Footer() {
               <span className="text-2xl font-bold text-white">Seek Nirvana</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-sm">
-              Ancient wisdom meets modern technology. Nirvana Ring guides you
-              toward lucid dreams, mindful living, and a longer, more conscious
-              life.
+              The ancient practice of conscious dreaming, now guided by your
+              body&apos;s own data.
             </p>
             <div className="flex items-center gap-4">
               {socials.map((social) => (
@@ -81,25 +74,9 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 className="text-white font-medium mb-4">Product</h4>
+            <h4 className="text-white font-medium mb-4">Explore</h4>
             <ul className="space-y-3">
-              {links.product.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-white/50 text-sm hover:text-nirvana-cyan transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-medium mb-4">Company</h4>
-            <ul className="space-y-3">
-              {links.company.map((link) => (
+              {links.explore.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}

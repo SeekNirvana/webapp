@@ -1,176 +1,229 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Cpu, Activity, Thermometer, Waves, Bluetooth, Battery } from 'lucide-react'
+import {
+  Activity,
+  ArrowRight,
+  BrainCircuit,
+  Cpu,
+  MoonStar,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  Waves,
+} from 'lucide-react'
 import FadeIn from '../animations/FadeIn'
 
-const specs = [
+const signals = [
   {
+    id: 'health',
     icon: Activity,
-    title: 'HRV Sensor',
-    value: '512Hz',
-    description: 'High-frequency heart rate variability — your coherence in real time, before your mind registers it.',
+    title: 'Health sensing',
+    description: 'Sleep, readiness, HRV, movement, and timing work together to shape when cueing should happen.',
   },
   {
-    icon: Waves,
-    title: 'Accelerometer',
-    value: '3-Axis',
-    description: 'Detects micro-movements and sleep position changes with exceptional sensitivity.',
+    id: 'mobile',
+    icon: Smartphone,
+    title: 'Mobile app layer',
+    description: 'The app handles journaling, cue settings, nightly review, guided onboarding, and the missing context behind the ring.',
   },
   {
-    icon: Thermometer,
-    title: 'Temperature',
-    value: '±0.1°C',
-    description: 'Skin temperature monitoring for illness detection and cycle tracking.',
-  },
-  {
-    icon: Bluetooth,
-    title: 'Connectivity',
-    value: 'BLE 5.2',
-    description: 'Low-energy Bluetooth for seamless app synchronisation and firmware updates.',
-  },
-  {
-    icon: Battery,
-    title: 'Battery Life',
-    value: '7 Days',
-    description: 'One hour of charge, seven days of continuous sensing.',
-  },
-  {
+    id: 'slm',
     icon: Cpu,
-    title: 'AI Engine',
-    value: 'Edge AI',
-    description: 'On-device ML runs privately on the ring — your patterns decoded for your growth, not a cloud.',
+    title: 'Local SLM guidance',
+    description: 'Detailed technology pages now explain the on-device Gemma 4 and Qwen 3.6 style workflows for somatic and cognitive stress support.',
   },
 ]
 
-export default function Technology() {
-  return (
-    <section id="technology" className="relative py-32 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-nirvana-cyan/5 via-transparent to-nirvana-purple/5" />
+function SignalIllustration({ id }: { id: string }) {
+  if (id === 'health') {
+    return (
+      <div className="relative mt-6 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-nirvana-cyan/10 via-white/5 to-nirvana-jade/10 p-5">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,212,255,0.12),transparent_55%)]" />
+        <div className="relative flex items-center justify-between gap-4">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70">
+              <Activity className="h-3.5 w-3.5 text-nirvana-cyan" />
+              HRV stable
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70">
+              <MoonStar className="h-3.5 w-3.5 text-nirvana-gold" />
+              REM window
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70">
+              <Waves className="h-3.5 w-3.5 text-nirvana-jade" />
+              SpO2 + motion
+            </div>
+          </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <FadeIn className="text-center mb-20">
-          <span className="text-nirvana-cyan text-sm tracking-widest uppercase mb-4 block">
-            Hardware for the Intention Economy
-          </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-white">Intention </span>
-            <span className="gradient-text">Hardware</span>
-          </h2>
-          <p className="max-w-2xl mx-auto text-lg text-white/60">
-            Each sensor is a tool of self-sovereignty — measuring the biological signals that algorithms exploit, so <em>you</em> can read them first.
-          </p>
-        </FadeIn>
+          <div className="relative flex h-24 w-24 items-center justify-center">
+            <div className="absolute inset-0 rounded-full border border-nirvana-cyan/20" />
+            <div className="absolute inset-2 rounded-full border border-nirvana-jade/20" />
+            <div className="absolute inset-4 rounded-full border border-nirvana-gold/20" />
+            <div className="absolute inset-7 rounded-full bg-gradient-to-br from-nirvana-cyan/20 to-nirvana-jade/20 blur-sm" />
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-nirvana-dark/80">
+              <Activity className="h-4 w-4 text-nirvana-cyan" />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-        {/* Tech Visualization */}
-        <FadeIn delay={0.2} className="mb-20">
-          <div className="relative max-w-4xl mx-auto">
-            {/* Central Ring Display */}
-            <div className="relative aspect-square max-w-md mx-auto">
-              {/* Outer Glow Rings */}
-              <motion.div
-                className="absolute inset-0 rounded-full border border-nirvana-cyan/20"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              >
-                {[...Array(8)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-2 h-2 rounded-full bg-nirvana-cyan/40"
-                    style={{
-                      top: '50%',
-                      left: '50%',
-                      transform: `rotate(${i * 45}deg) translateX(180px) translateY(-50%)`,
-                    }}
-                  />
-                ))}
-              </motion.div>
-
-              <motion.div
-                className="absolute inset-8 rounded-full border border-nirvana-jade/20"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+  if (id === 'mobile') {
+    return (
+      <div className="relative mt-6 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-nirvana-gold/10 via-white/5 to-nirvana-purple/10 p-5">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(201,162,39,0.14),transparent_48%)]" />
+        <div className="relative flex items-center justify-between gap-4">
+          <div className="rounded-[1.35rem] border border-white/10 bg-nirvana-dark/80 p-2 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+            <div className="h-28 w-16 overflow-hidden rounded-[1rem] border border-white/10 bg-black">
+              <img
+                src="/images/app/app_home.jpeg"
+                alt="SeekNirvana companion app"
+                className="h-full w-full object-cover object-top opacity-90"
               />
+            </div>
+          </div>
 
-              <motion.div
-                className="absolute inset-16 rounded-full border border-nirvana-gold/20"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              />
-
-              {/* Center Logo */}
-              <motion.div 
-                className="absolute inset-24 rounded-full overflow-hidden bg-nirvana-dark border border-white/10"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              >
-                <img
-                  src="/images/SeekNirvana_Logo.png"
-                  alt="Seek Nirvana"
-                  className="w-full h-full object-cover scale-125"
-                />
-              </motion.div>
-
-              {/* Sensor Points */}
-              {[
-                { angle: 0, label: 'HRV', color: 'bg-nirvana-cyan' },
-                { angle: 120, label: 'TEMP', color: 'bg-nirvana-jade' },
-                { angle: 240, label: 'ACC', color: 'bg-nirvana-gold' },
-              ].map((sensor) => (
-                <motion.div
-                  key={sensor.label}
-                  className="absolute"
-                  style={{
-                    top: '50%',
-                    left: '50%',
-                  }}
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
+          <div className="flex-1 space-y-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-white/35">
+                सहचर अनुप्रयोग
+              </p>
+              <p className="mt-1 text-sm text-white/75">Journal, cue setup, nightly review</p>
+            </div>
+            <div className="flex gap-2">
+              {['iOS', 'Android', 'Early access'].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/55"
                 >
-                  <div
-                    className={`w-3 h-3 rounded-full ${sensor.color}`}
-                    style={{
-                      transform: `rotate(${sensor.angle}deg) translateX(100px)`,
-                    }}
-                  />
-                </motion.div>
+                  {item}
+                </span>
               ))}
             </div>
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative mt-6 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-nirvana-purple/10 via-white/5 to-nirvana-cyan/10 p-5">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.16),transparent_45%)]" />
+      <div className="relative grid gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-purple-400/20 bg-purple-400/10">
+            <BrainCircuit className="h-5 w-5 text-purple-300" />
+          </div>
+          <div className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-purple-300/70">Soul layer</p>
+            <p className="text-sm text-white/75">Qwen-guided cognitive support</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-400/20 bg-emerald-400/10">
+            <Waves className="h-5 w-5 text-emerald-300" />
+          </div>
+          <div className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-300/70">Body layer</p>
+            <p className="text-sm text-white/75">Gemma-guided somatic regulation</p>
+          </div>
+        </div>
+        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-nirvana-gold/15 bg-nirvana-gold/5 px-3 py-1.5 text-[11px] text-white/65">
+          <ShieldCheck className="h-3.5 w-3.5 text-nirvana-gold" />
+          On-device, private, epoch-aware
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function Technology() {
+  return (
+    <section id="ai-data-layer" className="relative overflow-hidden py-28">
+      <div className="absolute inset-0 bg-gradient-to-b from-nirvana-cyan/5 via-transparent to-nirvana-purple/5" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <FadeIn className="mx-auto max-w-3xl text-center">
+          <span className="mb-4 block text-sm uppercase tracking-[0.3em] text-nirvana-cyan">
+            Technology Preview
+          </span>
+          <h2 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+            The deeper tech story now lives on its own page
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/62">
+            The homepage stays lighter here, while the dedicated technology page
+            restores the mobile app details and explains the local AI stack in
+            more depth.
+          </p>
         </FadeIn>
 
-        {/* Specs Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {specs.map((spec, index) => (
-            <FadeIn key={spec.title} delay={index * 0.1} className="h-full">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="group p-6 rounded-xl glass-card h-full"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-nirvana-cyan/10 flex items-center justify-center flex-shrink-0">
-                    <spec.icon className="w-5 h-5 text-nirvana-cyan" />
+        <div className="mt-16 grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+          <div className="grid gap-4">
+            {signals.map((signal, index) => (
+              <FadeIn key={signal.title} delay={index * 0.08} className="h-full">
+                <motion.div whileHover={{ y: -4 }} className="group h-full rounded-2xl glass-card p-6">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-nirvana-cyan/10">
+                    <signal.icon className="h-5 w-5 text-nirvana-cyan" />
                   </div>
-                  <div>
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <h3 className="text-white font-medium">{spec.title}</h3>
-                      <span className="text-nirvana-cyan text-sm font-mono">{spec.value}</span>
-                    </div>
-                    <p className="text-white/50 text-sm">{spec.description}</p>
-                  </div>
+                  <h3 className="text-xl font-semibold text-white">{signal.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/58 sm:text-base">
+                    {signal.description}
+                  </p>
+                  <SignalIllustration id={signal.id} />
+                </motion.div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn delay={0.2} className="h-full">
+            <div className="relative h-full overflow-hidden rounded-3xl border border-nirvana-cyan/15 bg-white/5 p-8 backdrop-blur-xl sm:p-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-nirvana-cyan/10 via-transparent to-nirvana-jade/10" />
+              <div className="relative">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-nirvana-cyan/20 bg-nirvana-cyan/10 px-4 py-2 text-sm text-nirvana-cyan">
+                  <Sparkles className="h-4 w-4" />
+                  तन्त्र दर्शन
                 </div>
-              </motion.div>
-            </FadeIn>
-          ))}
+                <p className="text-xs uppercase tracking-[0.28em] text-white/30">
+                  Technology deep dive
+                </p>
+
+                <div className="rounded-2xl border border-white/10 bg-nirvana-dark/60 p-6">
+                  <div className="mb-5 flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5">
+                      <MoonStar className="h-5 w-5 text-nirvana-cyan" />
+                    </div>
+                    <div>
+                      <p className="text-sm uppercase tracking-[0.28em] text-white/35">
+                        Included in the deep dive
+                      </p>
+                      <p className="text-white/82">Ring + app + local model architecture</p>
+                    </div>
+                  </div>
+                  <img
+                    src="/images/app/app_home.jpeg"
+                    alt="SeekNirvana mobile app preview"
+                    className="w-full rounded-2xl border border-white/10 object-cover"
+                  />
+                </div>
+
+                <p className="mt-8 text-sm leading-relaxed text-white/58 sm:text-base">
+                  Visit the detailed page for the restored mobile app story and
+                  the local SLM setup for somatic stress and cognitive stress
+                  handling.
+                </p>
+
+                <a
+                  href="/technology"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full border border-nirvana-cyan/20 bg-nirvana-cyan/10 px-6 py-3 text-sm font-medium text-nirvana-cyan transition-colors hover:bg-nirvana-cyan/20"
+                >
+                  Explore technology
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>
