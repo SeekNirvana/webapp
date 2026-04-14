@@ -1,5 +1,5 @@
-import MemberDashboard from "@/components/dashboard/MemberDashboard";
+import DashboardHome from "@/components/dashboard/DashboardHome";
 
 export default function DashboardPage() {
-  return <MemberDashboard section="overview" />;
+  return <DashboardHome />;
 }

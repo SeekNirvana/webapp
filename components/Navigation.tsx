@@ -6,29 +6,29 @@ import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAccount } from "wagmi";
 
-const homeNavLinks = [
+const homeNavLinks = (signedIn: boolean) => [
   { label: "Why It Matters", href: "#problem" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Benefits", href: "/benefits" },
   { label: "Technology", href: "/technology" },
   { label: "Programs", href: "/programs" },
-  { label: "Member hub", href: "/dashboard" },
+  { label: "Member hub", href: signedIn ? "/dashboard" : "/login" },
 ];
 
-const preorderNavLinks = [
+const preorderNavLinks = (signedIn: boolean) => [
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Benefits", href: "/benefits" },
   { label: "Technology", href: "/technology" },
   { label: "Programs", href: "/programs" },
-  { label: "Member hub", href: "/dashboard" },
+  { label: "Member hub", href: signedIn ? "/dashboard" : "/login" },
 ];
 
-const detailNavLinks = [
+const detailNavLinks = (signedIn: boolean) => [
   { label: "Home", href: "/" },
   { label: "Benefits", href: "/benefits" },
   { label: "Technology", href: "/technology" },
   { label: "Programs", href: "/programs" },
-  { label: "Member hub", href: "/dashboard" },
+  { label: "Member hub", href: signedIn ? "/dashboard" : "/login" },
 ];
 
 export default function Navigation() {
@@ -39,7 +39,7 @@ export default function Navigation() {
   const isProductPage = pathname?.includes("/product");
   const isProgramPage = pathname?.startsWith("/programs");
   const isSignedIn = isConnected && status === "connected";
-  const ctaHref = isSignedIn ? "/dashboard" : "/programs";
+  const ctaHref = isSignedIn ? "/dashboard" : "/login";
   const ctaLabel = isSignedIn ? "Dashboard" : "Join Program";
 
   useEffect(() => {
@@ -57,12 +57,14 @@ export default function Navigation() {
     pathname === "/benefits" ||
     pathname === "/technology" ||
     pathname === "/dashboard" ||
-    pathname?.startsWith("/programs");
+    pathname === "/login" ||
+    pathname?.startsWith("/programs") ||
+    pathname?.startsWith("/admin");
   const navLinks = isPreorderPage
-    ? preorderNavLinks
+    ? preorderNavLinks(isSignedIn)
     : isDetailPage
-      ? detailNavLinks
-      : homeNavLinks;
+      ? detailNavLinks(isSignedIn)
+      : homeNavLinks(isSignedIn);
 
   // Logo href - use root path for custom domain
   const getLogoHref = () => {
@@ -124,7 +126,15 @@ export default function Navigation() {
             </nav>
 
             {/* CTA */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-3">
+              {!isSignedIn ? (
+                <a
+                  href="/preorder"
+                  className="text-sm text-white/70 hover:text-nirvana-cyan transition-colors"
+                >
+                  Pre-order
+                </a>
+              ) : null}
               <a
                 href={ctaHref}
                 className="rounded-full bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark px-5 py-2.5 text-sm font-medium text-white transition-shadow hover:shadow-lg hover:shadow-nirvana-jade/20"
@@ -188,13 +198,25 @@ export default function Navigation() {
                     Home
                   </motion.a>
                 )}
+                {!isSignedIn ? (
+                  <motion.a
+                    href="/preorder"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.22 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="mt-4 text-center text-lg text-white/75 hover:text-nirvana-cyan py-2"
+                  >
+                    Pre-order
+                  </motion.a>
+                ) : null}
                 <motion.a
                   href={ctaHref}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="mt-4 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark px-6 py-3 text-center font-medium text-white"
+                  className="mt-2 rounded-xl bg-gradient-to-r from-nirvana-jade to-nirvana-jade-dark px-6 py-3 text-center font-medium text-white"
                 >
                   {ctaLabel}
                 </motion.a>

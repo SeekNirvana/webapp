@@ -5,17 +5,21 @@ import { getClientIp } from "@/lib/api/client-ip";
 import { memberHubWelcomeHtml, memberHubWelcomeText } from "@/lib/email/templates";
 import { getResend, getResendFrom } from "@/lib/email/resend-client";
 import { rateLimitSync } from "@/lib/rate-limit";
-import { dashboardProfilePostSchema } from "@/lib/schemas/dashboard";
+import {
+  dashboardOnboardingPostSchema,
+  dashboardProfilePatchSchema,
+} from "@/lib/schemas/dashboard";
+import {
+  isMissingColumnError,
+  mapMinimalRowToProfile,
+  mapProfile,
+  MINIMAL_PROFILE_SELECT,
+  PROFILE_SELECT,
+  type MinimalProfileRow,
+  type ProfileRow,
+} from "@/lib/dashboard/map-profile";
 import { createServiceClient } from "@/lib/supabase/server";
 import { normalizeWalletAddress } from "@/lib/web3/address";
-
-type ProfileRow = {
-  wallet_address: string;
-  email: string;
-  full_name: string | null;
-  onboarding_completed_at: string;
-  member_hub_email_sent_at: string | null;
-};
 
 export async function GET(request: NextRequest) {
   const ip = getClientIp(request);
@@ -46,15 +50,32 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "database_not_configured" }, { status: 503 });
   }
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("wallet_address,email,full_name,onboarding_completed_at,member_hub_email_sent_at")
-    .eq("wallet_address", wallet_address)
-    .maybeSingle();
+  let data: ProfileRow | MinimalProfileRow | null = null;
+  let useMinimal = false;
 
-  if (error) {
-    console.error("[dashboard/profile GET]", error);
+  const full = await supabase.from("profiles").select(PROFILE_SELECT).eq("wallet_address", wallet_address).maybeSingle();
+
+  if (full.error && isMissingColumnError(full.error)) {
+    console.warn("[dashboard/profile GET] extended columns missing; retrying minimal select:", full.error.message);
+    const minimal = await supabase
+      .from("profiles")
+      .select(MINIMAL_PROFILE_SELECT)
+      .eq("wallet_address", wallet_address)
+      .maybeSingle();
+    if (minimal.error) {
+      console.error("[dashboard/profile GET] minimal", minimal.error);
+      return NextResponse.json(
+        { error: "fetch_failed", hint: "apply_supabase_migrations" },
+        { status: 502 },
+      );
+    }
+    data = minimal.data as MinimalProfileRow | null;
+    useMinimal = true;
+  } else if (full.error) {
+    console.error("[dashboard/profile GET]", full.error);
     return NextResponse.json({ error: "fetch_failed" }, { status: 502 });
+  } else {
+    data = full.data as ProfileRow | null;
   }
 
   if (!data) {
@@ -64,21 +85,17 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const row = data as ProfileRow;
+  const profile = useMinimal ? mapMinimalRowToProfile(data as MinimalProfileRow) : mapProfile(data as ProfileRow);
   return NextResponse.json({
-    onboarded: Boolean(row.onboarding_completed_at),
-    profile: {
-      wallet_address: row.wallet_address,
-      email: row.email,
-      full_name: row.full_name,
-      onboarding_completed_at: row.onboarding_completed_at,
-    },
+    onboarded: Boolean(profile.onboarding_completed_at),
+    profile,
+    ...(useMinimal ? { schema: "minimal" as const } : {}),
   });
 }
 
 /**
- * Persists member details for a connected wallet. Wallet address in the body is not
- * cryptographically verified (SIWE) in v1 — intended for a low-risk preorder hub; rate limited.
+ * Completes onboarding: name, email, phone + optional fields. Sets onboarding_completed_at.
+ * Wallet address in the body is not cryptographically verified (SIWE) in v1.
  */
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
@@ -99,7 +116,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: msg }, { status });
   }
 
-  const parsed = dashboardProfilePostSchema.safeParse(body);
+  const parsed = dashboardOnboardingPostSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: "validation_error", issues: parsed.error.flatten() }, { status: 400 });
   }
@@ -116,11 +133,15 @@ export async function POST(request: NextRequest) {
 
   const email = parsed.data.email.trim().toLowerCase();
   const full_name = parsed.data.full_name.trim();
+  const phone = parsed.data.phone.trim();
+  const timezone = parsed.data.timezone?.trim() ?? null;
+  const date_of_birth = parsed.data.date_of_birth ?? null;
+  const bio = parsed.data.bio?.trim() ?? null;
   const now = new Date().toISOString();
 
   const { data: existing, error: existingError } = await supabase
     .from("profiles")
-    .select("member_hub_email_sent_at, onboarding_completed_at")
+    .select("member_hub_email_sent_at, role, avatar_url")
     .eq("wallet_address", wallet_address)
     .maybeSingle();
 
@@ -131,11 +152,11 @@ export async function POST(request: NextRequest) {
 
   const prev = existing as {
     member_hub_email_sent_at: string | null;
-    onboarding_completed_at: string | null;
+    role: string | null;
+    avatar_url: string | null;
   } | null;
-
   const shouldSendWelcome = !prev?.member_hub_email_sent_at;
-  const onboardingAt = prev?.onboarding_completed_at ?? now;
+  const preserveRole = prev?.role === "admin" ? "admin" : "member";
 
   const { data: upserted, error: upsertError } = await supabase
     .from("profiles")
@@ -144,13 +165,19 @@ export async function POST(request: NextRequest) {
         wallet_address,
         email,
         full_name,
-        onboarding_completed_at: onboardingAt,
+        phone,
+        role: preserveRole,
+        onboarding_completed_at: now,
+        timezone,
+        date_of_birth,
+        bio,
+        avatar_url: prev?.avatar_url ?? null,
         updated_at: now,
         member_hub_email_sent_at: prev?.member_hub_email_sent_at ?? null,
       },
       { onConflict: "wallet_address" },
     )
-    .select("wallet_address,email,full_name,onboarding_completed_at,member_hub_email_sent_at")
+    .select(PROFILE_SELECT)
     .single();
 
   if (upsertError || !upserted) {
@@ -185,16 +212,136 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const row = upserted as ProfileRow & { member_hub_email_sent_at?: string | null };
+  const row = upserted as ProfileRow;
   return NextResponse.json({
     ok: true,
     onboarded: true,
-    profile: {
-      wallet_address: row.wallet_address,
-      email: row.email,
-      full_name: row.full_name,
-      onboarding_completed_at: row.onboarding_completed_at,
-    },
+    profile: mapProfile(row),
     memberHubEmailSent: sentMemberEmail,
+  });
+}
+
+export async function PATCH(request: NextRequest) {
+  const ip = getClientIp(request);
+  const limited = rateLimitSync(`dashboard-profile-patch:${ip}`, 60, 10 * 60_000);
+  if (!limited.ok) {
+    return NextResponse.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
+  }
+
+  let body: unknown;
+  try {
+    body = await readJsonBody(request);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "invalid";
+    const status = msg === "payload_too_large" ? 413 : 400;
+    return NextResponse.json({ error: msg }, { status });
+  }
+
+  const parsed = dashboardProfilePatchSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "validation_error", issues: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const {
+    wallet_address: rawWallet,
+    full_name,
+    email,
+    phone,
+    timezone,
+    date_of_birth,
+    bio,
+    google_health_connected,
+    instagram_connected,
+  } = parsed.data;
+
+  const wallet_address = normalizeWalletAddress(rawWallet);
+  if (!wallet_address) {
+    return NextResponse.json({ error: "invalid_address" }, { status: 400 });
+  }
+
+  const hasUpdate =
+    full_name !== undefined ||
+    email !== undefined ||
+    phone !== undefined ||
+    timezone !== undefined ||
+    date_of_birth !== undefined ||
+    bio !== undefined ||
+    google_health_connected !== undefined ||
+    instagram_connected !== undefined;
+
+  if (!hasUpdate) {
+    return NextResponse.json({ error: "no_updates" }, { status: 400 });
+  }
+
+  const supabase = createServiceClient();
+  if (!supabase) {
+    return NextResponse.json({ error: "database_not_configured" }, { status: 503 });
+  }
+
+  const { data: existing, error: fetchError } = await supabase.from("profiles").select(PROFILE_SELECT).eq("wallet_address", wallet_address).maybeSingle();
+
+  if (fetchError) {
+    console.error("[dashboard/profile PATCH] fetch", fetchError);
+    return NextResponse.json({ error: "fetch_failed" }, { status: 502 });
+  }
+
+  if (!existing) {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
+
+  const now = new Date().toISOString();
+  const patch: Record<string, unknown> = { updated_at: now };
+
+  if (full_name !== undefined) {
+    patch.full_name = full_name.trim();
+  }
+  if (email !== undefined) {
+    patch.email = email.trim().toLowerCase();
+  }
+  if (phone !== undefined) {
+    patch.phone = phone.trim() === "" ? null : phone.trim();
+  }
+  if (timezone !== undefined) {
+    patch.timezone = timezone.trim() === "" ? null : timezone.trim();
+  }
+  if (date_of_birth !== undefined) {
+    if (date_of_birth === null || date_of_birth === "") {
+      patch.date_of_birth = null;
+    } else {
+      patch.date_of_birth = date_of_birth;
+    }
+  }
+  if (bio !== undefined) {
+    patch.bio = bio?.trim() ? bio.trim() : null;
+  }
+  if (google_health_connected === true) {
+    patch.google_health_connected_at = now;
+  } else if (google_health_connected === false) {
+    patch.google_health_connected_at = null;
+  }
+  if (instagram_connected === true) {
+    patch.instagram_connected_at = now;
+  } else if (instagram_connected === false) {
+    patch.instagram_connected_at = null;
+  }
+
+  const { data: updated, error: updateError } = await supabase
+    .from("profiles")
+    .update(patch)
+    .eq("wallet_address", wallet_address)
+    .select(PROFILE_SELECT)
+    .single();
+
+  if (updateError || !updated) {
+    console.error("[dashboard/profile PATCH] update", updateError);
+    return NextResponse.json({ error: "save_failed" }, { status: 502 });
+  }
+
+  return NextResponse.json({
+    ok: true,
+    profile: mapProfile(updated as ProfileRow),
   });
 }

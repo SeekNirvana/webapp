@@ -386,13 +386,21 @@ export default function CohortApplicationForm() {
                 to enable sign-in.
               </p>
             ) : (
-              <button
-                type="button"
-                onClick={() => void open()}
-                className="mt-8 inline-flex w-full max-w-md items-center justify-center rounded-full border border-white/12 bg-white/[0.08] px-8 py-4 text-base font-medium text-white shadow-sm transition-colors hover:border-nirvana-jade/40 hover:bg-nirvana-jade/15 hover:text-white"
-              >
-                Sign in or connect
-              </button>
+              <div className="mt-8 flex w-full max-w-md flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={() => void open()}
+                  className="inline-flex w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.08] px-8 py-4 text-base font-medium text-white shadow-sm transition-colors hover:border-nirvana-jade/40 hover:bg-nirvana-jade/15 hover:text-white"
+                >
+                  Sign in or connect
+                </button>
+                <a
+                  href="/login"
+                  className="text-center text-sm text-nirvana-cyan/90 underline-offset-2 hover:underline"
+                >
+                  Open full sign-in page
+                </a>
+              </div>
             )}
           </div>
         ) : isCheckingProfile ? (
