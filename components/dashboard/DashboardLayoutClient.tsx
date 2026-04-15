@@ -13,6 +13,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { SiGooglefit } from "react-icons/si";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -37,6 +38,7 @@ function DashboardChrome({ children }: { children: React.ReactNode }) {
   const nav = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, match: (p: string) => p === "/dashboard" },
     { href: "/dashboard/updates", label: "Updates", icon: Bell, match: (p: string) => p.startsWith("/dashboard/updates") },
+    { href: "/dashboard/fit", label: "Fit analytics", icon: SiGooglefit, match: (p: string) => p.startsWith("/dashboard/fit") },
     { href: "/dashboard/settings", label: "Settings", icon: Settings, match: (p: string) => p.startsWith("/dashboard/settings") },
     ...(isAdmin
       ? [{ href: "/admin/dashboard", label: "Admin", icon: Shield, match: (p: string) => p.startsWith("/admin/dashboard") }]

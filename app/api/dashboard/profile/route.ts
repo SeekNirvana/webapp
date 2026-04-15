@@ -21,6 +21,14 @@ import {
 import { createServiceClient } from "@/lib/supabase/server";
 import { normalizeWalletAddress } from "@/lib/web3/address";
 
+function isMissingRelationError(err: { message?: string; code?: string } | null): boolean {
+  if (!err?.message) {
+    return false;
+  }
+  const m = err.message.toLowerCase();
+  return err.code === "42P01" || (m.includes("relation") && m.includes("does not exist"));
+}
+
 export async function GET(request: NextRequest) {
   const ip = getClientIp(request);
   const limited = rateLimitSync(`dashboard-profile-get:${ip}`, 120, 10 * 60_000);
@@ -86,6 +94,24 @@ export async function GET(request: NextRequest) {
   }
 
   const profile = useMinimal ? mapMinimalRowToProfile(data as MinimalProfileRow) : mapProfile(data as ProfileRow);
+  const { data: connection, error: connectionError } = await supabase
+    .from("google_fit_connections")
+    .select("connected_at,last_sync_at,revoked_at")
+    .eq("wallet_address", wallet_address)
+    .maybeSingle();
+
+  if (connectionError && !isMissingRelationError(connectionError)) {
+    console.error("[dashboard/profile GET] google_fit_connections", connectionError);
+  }
+
+  if (connection && !connection.revoked_at) {
+    profile.google_fit_connected_at = connection.connected_at ?? null;
+    profile.google_fit_last_sync_at = connection.last_sync_at ?? null;
+  } else {
+    profile.google_fit_connected_at = null;
+    profile.google_fit_last_sync_at = null;
+  }
+
   return NextResponse.json({
     onboarded: Boolean(profile.onboarding_completed_at),
     profile,

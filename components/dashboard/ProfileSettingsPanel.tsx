@@ -23,7 +23,6 @@ export default function ProfileSettingsPanel() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [bio, setBio] = useState("");
   const [saving, setSaving] = useState(false);
-  const [connectorBusy, setConnectorBusy] = useState<"health" | "instagram" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [avatarBusy, setAvatarBusy] = useState(false);
@@ -134,34 +133,6 @@ export default function ProfileSettingsPanel() {
     }
   }
 
-  async function toggleConnector(kind: "health" | "instagram", next: boolean) {
-    if (!address) {
-      return;
-    }
-    setConnectorBusy(kind);
-    setError(null);
-    try {
-      const res = await fetch("/api/dashboard/profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          wallet_address: address,
-          ...(kind === "health" ? { google_health_connected: next } : { instagram_connected: next }),
-        }),
-      });
-      if (!res.ok) {
-        setError("Could not update connector.");
-        return;
-      }
-      await loadProfile();
-    } finally {
-      setConnectorBusy(null);
-    }
-  }
-
-  const healthOn = Boolean(profile?.google_health_connected_at);
-  const igOn = Boolean(profile?.instagram_connected_at);
-
   return (
     <div className="space-y-8">
       <FadeIn>
@@ -169,7 +140,7 @@ export default function ProfileSettingsPanel() {
         <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
           <span className="gradient-text">Profile &amp; settings</span>
         </h1>
-        <p className="mt-2 text-sm text-white/60">Update your details and manage integrations.</p>
+        <p className="mt-2 text-sm text-white/60">Update your profile details and account information.</p>
       </FadeIn>
 
       <div className="flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl sm:flex-row sm:items-start">
@@ -310,54 +281,6 @@ export default function ProfileSettingsPanel() {
         </button>
       </form>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6">
-          <h3 className="text-sm font-semibold text-white">Google Health Connect</h3>
-          <p className="mt-2 text-xs leading-relaxed text-white/50">
-            Placeholder for future Android Health Connect sync. Full OAuth wiring comes in a later release.
-          </p>
-          <p className="mt-3 text-xs text-white/40">
-            Status: {healthOn ? <span className="text-nirvana-jade-light">Linked (demo)</span> : "Not linked"}
-          </p>
-          <button
-            type="button"
-            disabled={connectorBusy !== null}
-            onClick={() => void toggleConnector("health", !healthOn)}
-            className="mt-4 w-full rounded-full border border-white/15 py-2.5 text-xs font-medium text-white/90 hover:bg-white/5 disabled:opacity-50"
-          >
-            {connectorBusy === "health" ? (
-              <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-            ) : healthOn ? (
-              "Disconnect (demo)"
-            ) : (
-              "Connect (demo)"
-            )}
-          </button>
-        </div>
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6">
-          <h3 className="text-sm font-semibold text-white">Instagram</h3>
-          <p className="mt-2 text-xs leading-relaxed text-white/50">
-            Placeholder for a future Instagram connection. No data is shared until OAuth is enabled.
-          </p>
-          <p className="mt-3 text-xs text-white/40">
-            Status: {igOn ? <span className="text-nirvana-jade-light">Linked (demo)</span> : "Not linked"}
-          </p>
-          <button
-            type="button"
-            disabled={connectorBusy !== null}
-            onClick={() => void toggleConnector("instagram", !igOn)}
-            className="mt-4 w-full rounded-full border border-white/15 py-2.5 text-xs font-medium text-white/90 hover:bg-white/5 disabled:opacity-50"
-          >
-            {connectorBusy === "instagram" ? (
-              <Loader2 className="mx-auto h-4 w-4 animate-spin" />
-            ) : igOn ? (
-              "Disconnect (demo)"
-            ) : (
-              "Connect (demo)"
-            )}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

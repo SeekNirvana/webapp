@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Activity, Bell, CheckCircle2, Link2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SiGooglefit, SiInstagram } from "react-icons/si";
 
 import FadeIn from "@/components/animations/FadeIn";
 import { useDashboard } from "@/components/dashboard/DashboardContext";
@@ -40,7 +41,7 @@ export default function DashboardHome() {
 
   const heading = profile?.full_name ? `Welcome, ${profile.full_name.split(/\s+/)[0]}` : "Welcome to your member hub";
 
-  const healthConnected = Boolean(profile?.google_health_connected_at);
+  const healthConnected = Boolean(profile?.google_fit_connected_at);
   const igConnected = Boolean(profile?.instagram_connected_at);
 
   return (
@@ -53,7 +54,7 @@ export default function DashboardHome() {
         <p className="mt-2 text-sm text-white/60">Your calm space for ring updates and account tools.</p>
       </FadeIn>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-3">
         <Link
           href="/dashboard/settings"
           className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition hover:border-nirvana-cyan/25"
@@ -62,7 +63,7 @@ export default function DashboardHome() {
             <Activity className="h-4 w-4" />
             <span className="text-sm font-medium text-white">Profile &amp; settings</span>
           </div>
-          <p className="mt-2 text-xs text-white/50">Edit details, connectors, and wallet.</p>
+          <p className="mt-2 text-xs text-white/50">Edit details and wallet settings.</p>
         </Link>
         <Link
           href="/dashboard/updates"
@@ -74,6 +75,16 @@ export default function DashboardHome() {
           </div>
           <p className="mt-2 text-xs text-white/50">Milestones from our team.</p>
         </Link>
+        <Link
+          href="/dashboard/fit"
+          className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition hover:border-nirvana-cyan/25"
+        >
+          <div className="flex items-center gap-2 text-nirvana-cyan">
+            <SiGooglefit className="h-4 w-4" />
+            <span className="text-sm font-medium text-white">Fit analytics</span>
+          </div>
+          <p className="mt-2 text-xs text-white/50">Connectors, sync, and visual trends.</p>
+        </Link>
       </div>
 
       <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl">
@@ -81,16 +92,18 @@ export default function DashboardHome() {
           <Link2 className="h-4 w-4 text-nirvana-cyan" />
           <h2 className="text-sm font-semibold">Connectors</h2>
         </div>
-        <p className="mt-1 text-xs text-white/45">Link integrations from settings when you&apos;re ready.</p>
+        <p className="mt-1 text-xs text-white/45">Manage integrations in the Fit Analytics tab.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <span
             className={`rounded-full border px-3 py-1 text-xs ${healthConnected ? "border-nirvana-jade/40 text-nirvana-jade-light" : "border-white/15 text-white/50"}`}
           >
-            Google Health {healthConnected ? "· linked" : "· not linked"}
+            <SiGooglefit className="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />
+            Google Fit {healthConnected ? "· linked" : "· not linked"}
           </span>
           <span
             className={`rounded-full border px-3 py-1 text-xs ${igConnected ? "border-nirvana-jade/40 text-nirvana-jade-light" : "border-white/15 text-white/50"}`}
           >
+            <SiInstagram className="mr-1 inline-block h-3.5 w-3.5 align-[-2px]" />
             Instagram {igConnected ? "· linked" : "· not linked"}
           </span>
         </div>

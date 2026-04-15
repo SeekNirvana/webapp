@@ -11,6 +11,8 @@ export type ProfileRow = {
   timezone: string | null;
   date_of_birth: string | null;
   bio: string | null;
+  google_fit_connected_at?: string | null;
+  google_fit_last_sync_at?: string | null;
   google_health_connected_at: string | null;
   instagram_connected_at: string | null;
   avatar_url: string | null;
@@ -60,6 +62,8 @@ export function mapMinimalRowToProfile(row: MinimalProfileRow): DashboardProfile
     timezone: null,
     date_of_birth: null,
     bio: null,
+    google_fit_connected_at: null,
+    google_fit_last_sync_at: null,
     google_health_connected_at: null,
     instagram_connected_at: null,
     avatar_url: null,
@@ -77,6 +81,8 @@ export function mapProfile(row: ProfileRow): DashboardProfile {
     timezone: row.timezone,
     date_of_birth: row.date_of_birth,
     bio: row.bio,
+    google_fit_connected_at: row.google_fit_connected_at ?? null,
+    google_fit_last_sync_at: row.google_fit_last_sync_at ?? null,
     google_health_connected_at: row.google_health_connected_at,
     instagram_connected_at: row.instagram_connected_at,
     avatar_url: row.avatar_url,
