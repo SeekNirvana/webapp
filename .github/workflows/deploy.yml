@@ -52,17 +52,20 @@ jobs:
           NEXT_PUBLIC_PROJECT_ID: ${{ vars.NEXT_PUBLIC_REOWN_PROJECT_ID }}
         run: pnpm run build
 
-      # Optional but recommended 👇
       - name: Run Lint
         run: pnpm run lint
 
       - name: Run Tests
         run: pnpm test
 
+      # Optional but safe for GitHub Pages
+      - name: Add .nojekyll
+        run: touch ./out/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist   # make sure this matches your build output
+          path: ./out
 
   deploy:
     runs-on: ubuntu-latest
