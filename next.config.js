@@ -15,8 +15,6 @@ const path = require("path");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export", // 👈 ADD THIS
-
   outputFileTracingRoot: path.join(__dirname),
 
   webpack: (config) => {
