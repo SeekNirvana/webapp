@@ -9,17 +9,24 @@ import type { ProductUpdate } from "@/lib/dashboard/types";
 export default function DashboardUpdatesList() {
   const [updates, setUpdates] = useState<ProductUpdate[]>([]);
   const [updatesLoading, setUpdatesLoading] = useState(false);
+  const [updatesError, setUpdatesError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     setUpdatesLoading(true);
+    setUpdatesError(false);
     void (async () => {
       try {
         const res = await fetch("/api/dashboard/updates");
         const json = (await res.json()) as { updates?: ProductUpdate[] };
-        if (!cancelled && res.ok && json.updates) {
+        if (cancelled) return;
+        if (res.ok && json.updates) {
           setUpdates(json.updates);
+        } else {
+          setUpdatesError(true);
         }
+      } catch {
+        if (!cancelled) setUpdatesError(true);
       } finally {
         if (!cancelled) {
           setUpdatesLoading(false);
@@ -52,6 +59,10 @@ export default function DashboardUpdatesList() {
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
             Loading updates...
           </div>
+        ) : updatesError ? (
+          <p className="mt-8 rounded-2xl border border-white/10 bg-nirvana-dark/40 px-4 py-6 text-sm text-white/55">
+            Could not load updates. Try refreshing the page.
+          </p>
         ) : updates.length === 0 ? (
           <p className="mt-8 rounded-2xl border border-white/10 bg-nirvana-dark/40 px-4 py-6 text-sm text-white/55">
             No updates posted yet. Check back soon—we will share production and shipping news here.

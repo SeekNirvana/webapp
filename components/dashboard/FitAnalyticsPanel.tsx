@@ -21,7 +21,9 @@ export default function FitAnalyticsPanel() {
   const [connectorBusy, setConnectorBusy] = useState<"google-fit" | "sync" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [analyticsError, setAnalyticsError] = useState<string | null>(null);
   const [range, setRange] = useState<"7d" | "30d">("7d");
+  const [refreshTick, setRefreshTick] = useState(0);
   const [fitnessLoading, setFitnessLoading] = useState(false);
   const [fitness, setFitness] = useState<FitnessSummary | null>(null);
   const googleFitEnabled = process.env.NEXT_PUBLIC_ENABLE_GOOGLE_FIT === "true";
@@ -31,16 +33,27 @@ export default function FitAnalyticsPanel() {
   useEffect(() => {
     if (!googleFitEnabled || !address || !healthOn) {
       setFitness(null);
+      setAnalyticsError(null);
       return;
     }
     let cancelled = false;
     setFitnessLoading(true);
+    setAnalyticsError(null);
     void (async () => {
       try {
         const res = await fetch(`/api/dashboard/fitness-summary?address=${encodeURIComponent(address)}&range=${range}`);
-        const json = (await res.json()) as FitnessSummary;
+        const json = (await res.json()) as FitnessSummary & { error?: string };
         if (!cancelled && res.ok) {
           setFitness(json);
+          setAnalyticsError(null);
+        } else if (!cancelled) {
+          setFitness(null);
+          setAnalyticsError(json.error ?? "Could not load analytics right now.");
+        }
+      } catch {
+        if (!cancelled) {
+          setFitness(null);
+          setAnalyticsError("Network error while loading analytics.");
         }
       } finally {
         if (!cancelled) {
@@ -51,12 +64,15 @@ export default function FitAnalyticsPanel() {
     return () => {
       cancelled = true;
     };
-  }, [address, googleFitEnabled, healthOn, range]);
+  }, [address, googleFitEnabled, healthOn, range, refreshTick]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get("google_fit");
     const reason = params.get("reason");
+    if (!status) {
+      return;
+    }
     if (status === "connected") {
       setMessage("Google Fit connected.");
       setError(null);
@@ -67,10 +83,20 @@ export default function FitAnalyticsPanel() {
           ? "Google Fit connection was cancelled."
           : reason === "integration_not_configured"
             ? "Google Fit is not configured in this environment."
-            : `Google Fit connection failed (${reason ?? "unknown_error"}).`,
+            : reason === "integration_disabled"
+              ? "Google Fit is disabled. Rebuild with NEXT_PUBLIC_ENABLE_GOOGLE_FIT=true or enable it in your environment."
+              : reason === "oauth_origin_mismatch"
+                ? "Open this app on the same URL as GOOGLE_OAUTH_REDIRECT_URI (e.g. both http://localhost:3000, not mixed hosts/ports)."
+                : `Google Fit connection failed (${reason ?? "unknown_error"}).`,
       );
       setMessage(null);
     }
+    params.delete("google_fit");
+    params.delete("reason");
+    params.delete("wallet");
+    const query = params.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}`;
+    window.history.replaceState({}, "", nextUrl);
   }, [loadProfile]);
 
   const maxSteps = useMemo(() => {
@@ -164,6 +190,9 @@ export default function FitAnalyticsPanel() {
       const summary = await fetch(`/api/dashboard/fitness-summary?address=${encodeURIComponent(address)}&range=${range}`);
       if (summary.ok) {
         setFitness((await summary.json()) as FitnessSummary);
+        setAnalyticsError(null);
+      } else {
+        setAnalyticsError("Sync completed, but analytics are not available yet.");
       }
     } finally {
       setConnectorBusy(null);
@@ -271,9 +300,27 @@ export default function FitAnalyticsPanel() {
         </div>
 
         {fitnessLoading ? (
-          <div className="mt-6 flex items-center gap-2 text-sm text-white/50">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Loading analytics...
+          <div className="mt-6 rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+            <div className="flex items-center gap-2 text-sm text-white/55">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading analytics...
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
+              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
+              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
+            </div>
+          </div>
+        ) : analyticsError ? (
+          <div className="mt-6 rounded-2xl border border-red-400/25 bg-red-500/10 p-4 text-sm text-red-200">
+            <p>{analyticsError}</p>
+            <button
+              type="button"
+              onClick={() => setRefreshTick((n) => n + 1)}
+              className="mt-3 rounded-full border border-red-300/35 px-3 py-1 text-xs text-red-100 hover:bg-red-500/20"
+            >
+              Retry
+            </button>
           </div>
         ) : !healthOn ? (
           <p className="mt-6 text-sm text-white/55">Connect Google Fit to unlock visual trends.</p>

@@ -16,8 +16,8 @@ import {
 import { SiGooglefit } from "react-icons/si";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 
 import { DashboardProvider, useDashboard } from "@/components/dashboard/DashboardContext";
@@ -190,10 +190,51 @@ function DashboardChrome({ children }: { children: React.ReactNode }) {
 function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const { address, status } = useAccount();
   const { profileLoading, onboarded, openConnect, reownReady, submitError } = useDashboard();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  /** After a full-page redirect (e.g. Google Fit OAuth), wagmi restores the prior session from storage — avoid treating that as “signed out”. */
+  const walletSessionPending = status === "connecting" || status === "reconnecting";
   const isConnected = Boolean(address && status === "connected");
+  const fitCallbackStatus = searchParams.get("google_fit");
+  const fitCallbackWallet = searchParams.get("wallet");
+  const isGoogleFitCallbackView = useMemo(
+    () => pathname?.startsWith("/dashboard/fit") && fitCallbackStatus === "connected",
+    [pathname, fitCallbackStatus],
+  );
+
+  const hasOpenedConnectRef = useRef(false);
+  useEffect(() => {
+    if (isConnected || !isGoogleFitCallbackView || !reownReady) {
+      return;
+    }
+    if (walletSessionPending) {
+      return;
+    }
+    if (hasOpenedConnectRef.current) return;
+    hasOpenedConnectRef.current = true;
+    // Open sign-in modal only if the wallet did not restore after the OAuth return.
+    void openConnect();
+  }, [isConnected, isGoogleFitCallbackView, reownReady, openConnect, walletSessionPending]);
+
+  if (walletSessionPending) {
+    return (
+      <div className="min-h-screen bg-nirvana-dark px-4 py-28">
+        <div className="mx-auto max-w-xl rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+          <div className="flex items-center gap-3 text-white/80">
+            <Loader2 className="h-5 w-5 animate-spin text-nirvana-cyan" aria-hidden />
+            Restoring your wallet session…
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!isConnected) {
+    const walletHint =
+      fitCallbackWallet && fitCallbackWallet.length > 12
+        ? `${fitCallbackWallet.slice(0, 6)}...${fitCallbackWallet.slice(-4)}`
+        : fitCallbackWallet;
     return (
       <div className="min-h-screen bg-nirvana-dark">
         <div className="absolute inset-0 mandala-pattern pointer-events-none opacity-25" />
@@ -204,10 +245,22 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
             className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center backdrop-blur-xl"
           >
             <Sparkles className="mx-auto h-10 w-10 text-nirvana-cyan/90" aria-hidden />
-            <h1 className="mt-4 text-xl font-semibold text-white">Connect your wallet</h1>
-            <p className="mt-2 text-sm text-white/60">
-              Sign in with email, social, or your wallet to open your member hub.
-            </p>
+            {isGoogleFitCallbackView ? (
+              <>
+                <h1 className="mt-4 text-xl font-semibold text-white">Google Fit linked. Finish sign-in</h1>
+                <p className="mt-2 text-sm text-white/60">
+                  Your Google Fit authorization is complete. Connect the same wallet to open Fit analytics.
+                </p>
+                {walletHint ? <p className="mt-3 text-xs text-white/45">Expected wallet: {walletHint}</p> : null}
+              </>
+            ) : (
+              <>
+                <h1 className="mt-4 text-xl font-semibold text-white">Connect your wallet</h1>
+                <p className="mt-2 text-sm text-white/60">
+                  Sign in with email, social, or your wallet to open your member hub.
+                </p>
+              </>
+            )}
             {!reownReady ? (
               <p className="mt-6 text-sm text-nirvana-gold/90">Sign-in is not configured in this environment.</p>
             ) : (
@@ -219,9 +272,16 @@ function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
                 Connect
               </button>
             )}
-            <Link href="/login" className="mt-4 inline-block text-sm text-nirvana-cyan/90 hover:underline">
-              Open sign-in page
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/login" className="inline-block text-sm text-nirvana-cyan/90 hover:underline">
+                Open sign-in page
+              </Link>
+              {isGoogleFitCallbackView ? (
+                <Link href="/dashboard/fit" className="inline-block text-sm text-white/65 hover:text-white">
+                  Refresh fit page
+                </Link>
+              ) : null}
+            </div>
           </motion.div>
         </div>
       </div>

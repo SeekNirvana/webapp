@@ -9,19 +9,32 @@ export default function Newsletter() {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
 
     setIsSubmitting(true)
+    setIsError(false)
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    setIsSubmitting(false)
-    setIsSubscribed(true)
-    setEmail('')
+    try {
+      const res = await fetch('/api/email/signup-welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (!res.ok) {
+        setIsError(true)
+        return
+      }
+      setIsSubscribed(true)
+      setEmail('')
+    } catch {
+      setIsError(true)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -101,6 +114,11 @@ export default function Newsletter() {
                     </motion.button>
                   </div>
 
+                  {isError && (
+                    <p className="text-red-400 text-xs mt-3">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
                   <p className="text-white/30 text-xs mt-4">
                     We respect your privacy. Unsubscribe any time.
                   </p>

@@ -79,6 +79,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_REOWN_PROJECT_ID=${{ vars.NEXT_PUBLIC_REOWN_PROJECT_ID }}
+            NEXT_PUBLIC_PROJECT_ID=${{ vars.NEXT_PUBLIC_REOWN_PROJECT_ID }}
+            NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
+            NEXT_PUBLIC_ENABLE_GOOGLE_FIT=${{ vars.NEXT_PUBLIC_ENABLE_GOOGLE_FIT }}
 
   deploy:
     runs-on: ubuntu-latest

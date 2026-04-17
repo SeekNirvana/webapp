@@ -116,10 +116,12 @@ export function verifySignedOAuthState(state: string, maxAgeMs = 10 * 60_000): {
     return null;
   }
   const expected = signState(payload);
-  if (signature.length !== expected.length) {
+  let valid = false;
+  try {
+    valid = crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  } catch {
     return null;
   }
-  const valid = crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
   if (!valid) {
     return null;
   }
