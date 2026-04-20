@@ -4,8 +4,18 @@ import { Loader2, RefreshCcw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { SiGooglefit, SiInstagram } from "react-icons/si";
 
-import FadeIn from "@/components/animations/FadeIn";
+import { FadeIn } from "@/src/components/FadeIn";
 import { useDashboard } from "@/components/dashboard/DashboardContext";
+import {
+  dashboardActionClass,
+  dashboardCardClass,
+  dashboardEyebrowClass,
+  dashboardHeadingWrapClass,
+  dashboardMutedCardClass,
+  dashboardPageClass,
+  dashboardSubtitleClass,
+  dashboardTitleClass,
+} from "@/components/dashboard/ui";
 import type { FitnessSummary } from "@/lib/dashboard/types";
 
 function formatShortDate(value: string): string {
@@ -201,30 +211,32 @@ export default function FitAnalyticsPanel() {
 
   if (!googleFitEnabled) {
     return (
-      <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-sm text-white/60 backdrop-blur-xl">
+      <div className={`${dashboardMutedCardClass} text-sm text-white/60`}>
         Fit analytics are disabled in this environment.
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className={dashboardPageClass}>
       <FadeIn>
-        <p className="text-xs uppercase tracking-[0.35em] text-nirvana-gold">Performance</p>
-        <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-          <span className="gradient-text">Fit analytics</span>
-        </h1>
-        <p className="mt-2 text-sm text-white/60">Connect Google Fit and review activity trends in one clean view.</p>
+        <div className={dashboardHeadingWrapClass}>
+          <p className={dashboardEyebrowClass}>Performance</p>
+          <h1 className={dashboardTitleClass}>
+            <span className="text-gradient-jade">Fit analytics</span>
+          </h1>
+          <p className={dashboardSubtitleClass}>Connect Google Fit and review your activity trends in one clean, structured view.</p>
+        </div>
       </FadeIn>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6">
+        <div className={dashboardCardClass}>
           <div className="flex items-center gap-3">
-            <SiGooglefit className="h-5 w-5 text-nirvana-cyan" aria-hidden />
+            <SiGooglefit className="h-5 w-5 text-cyan" aria-hidden />
             <h2 className="text-sm font-semibold text-white">Google Fit</h2>
           </div>
           <p className="mt-2 text-xs text-white/50">
-            Status: {healthOn ? <span className="text-nirvana-jade-light">Linked</span> : "Not linked"}
+            Status: {healthOn ? <span className="text-jade-light">Linked</span> : "Not linked"}
           </p>
           {profile?.google_fit_last_sync_at ? (
             <p className="mt-1 text-xs text-white/45">Last sync: {new Date(profile.google_fit_last_sync_at).toLocaleString()}</p>
@@ -234,7 +246,7 @@ export default function FitAnalyticsPanel() {
               type="button"
               disabled={connectorBusy !== null}
               onClick={healthOn ? () => void disconnectGoogleFit() : connectGoogleFit}
-              className="rounded-full border border-white/15 py-2.5 text-xs font-medium text-white/90 hover:bg-white/5 disabled:opacity-50"
+              className={`${dashboardActionClass()} py-2.5 disabled:opacity-50`}
             >
               {connectorBusy === "google-fit" ? (
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />
@@ -248,7 +260,7 @@ export default function FitAnalyticsPanel() {
               type="button"
               disabled={connectorBusy !== null || !healthOn}
               onClick={() => void syncGoogleFit()}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-nirvana-cyan/25 py-2.5 text-xs font-medium text-nirvana-cyan hover:bg-nirvana-cyan/10 disabled:opacity-50"
+              className={`${dashboardActionClass("primary")} py-2.5 disabled:opacity-50`}
             >
               {connectorBusy === "sync" ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-3.5 w-3.5" />}
               Sync
@@ -256,13 +268,13 @@ export default function FitAnalyticsPanel() {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6">
+        <div className={dashboardCardClass}>
           <div className="flex items-center gap-3">
             <SiInstagram className="h-5 w-5 text-pink-300" aria-hidden />
             <h2 className="text-sm font-semibold text-white">Instagram</h2>
           </div>
           <p className="mt-2 text-xs text-white/50">
-            Status: {instagramOn ? <span className="text-nirvana-jade-light">Linked (demo)</span> : "Not linked"}
+            Status: {instagramOn ? <span className="text-jade-light">Linked (demo)</span> : "Not linked"}
           </p>
           <p className="mt-3 text-xs leading-relaxed text-white/45">
             Social insights are planned for a future release. This tab will stay the central home for third-party fitness
@@ -275,24 +287,24 @@ export default function FitAnalyticsPanel() {
         <p className="rounded-xl border border-red-400/25 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</p>
       ) : null}
       {message ? (
-        <p className="rounded-xl border border-nirvana-jade/25 bg-nirvana-jade/10 px-4 py-3 text-sm text-nirvana-jade-light">{message}</p>
+        <p className="rounded-xl border border-jade/25 bg-white/[0.08] px-4 py-3 text-sm text-jade-light">{message}</p>
       ) : null}
 
-      <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+      <div className={dashboardCardClass}>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-sm font-semibold text-white">Activity view</h2>
-          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-nirvana-dark/40 p-1">
+          <div className="flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] p-1">
             <button
               type="button"
               onClick={() => setRange("7d")}
-              className={`rounded-full px-3 py-1 text-xs ${range === "7d" ? "bg-nirvana-cyan/20 text-nirvana-cyan" : "text-white/60"}`}
+              className={`rounded-full px-3 py-1 text-xs ${range === "7d" ? "bg-cyan/20 text-cyan" : "text-white/60"}`}
             >
               7d
             </button>
             <button
               type="button"
               onClick={() => setRange("30d")}
-              className={`rounded-full px-3 py-1 text-xs ${range === "30d" ? "bg-nirvana-cyan/20 text-nirvana-cyan" : "text-white/60"}`}
+              className={`rounded-full px-3 py-1 text-xs ${range === "30d" ? "bg-cyan/20 text-cyan" : "text-white/60"}`}
             >
               30d
             </button>
@@ -300,15 +312,15 @@ export default function FitAnalyticsPanel() {
         </div>
 
         {fitnessLoading ? (
-          <div className="mt-6 rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+          <div className="mt-6 rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
             <div className="flex items-center gap-2 text-sm text-white/55">
               <Loader2 className="h-4 w-4 animate-spin" />
               Loading analytics...
             </div>
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
-              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
-              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
-              <div className="h-16 animate-pulse rounded-xl bg-white/5" />
+              <div className="h-16 animate-pulse rounded-xl bg-white/[0.06]" />
+              <div className="h-16 animate-pulse rounded-xl bg-white/[0.06]" />
+              <div className="h-16 animate-pulse rounded-xl bg-white/[0.06]" />
             </div>
           </div>
         ) : analyticsError ? (
@@ -329,15 +341,15 @@ export default function FitAnalyticsPanel() {
         ) : (
           <>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Steps</p>
                 <p className="mt-1 text-xl font-semibold text-white">{fitness.totals.steps.toLocaleString()}</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Active minutes</p>
                 <p className="mt-1 text-xl font-semibold text-white">{fitness.totals.active_minutes.toLocaleString()}</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Calories (kcal)</p>
                 <p className="mt-1 text-xl font-semibold text-white">
                   {Math.round(fitness.totals.calories_kcal).toLocaleString()}
@@ -346,39 +358,39 @@ export default function FitAnalyticsPanel() {
             </div>
 
             <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Avg daily steps</p>
                 <p className="mt-1 text-base font-semibold text-white">{derived.avgSteps.toLocaleString()}</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Avg active minutes/day</p>
                 <p className="mt-1 text-base font-semibold text-white">{derived.avgActiveMinutes.toLocaleString()}</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Active-day consistency</p>
                 <p className="mt-1 text-base font-semibold text-white">{derived.activeDaysPct}%</p>
                 <p className="mt-1 text-[11px] text-white/45">Days with 5k+ steps</p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
                 <p className="text-xs text-white/55">Estimated distance</p>
                 <p className="mt-1 text-base font-semibold text-white">{derived.estimatedDistanceKm} km</p>
               </div>
             </div>
 
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-nirvana-cyan/10 to-transparent p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-gradient-to-r from-cyan/10 to-transparent p-4">
                 <p className="text-xs text-white/55">Best day</p>
                 <p className="mt-1 text-base font-semibold text-white">
                   {derived.bestDayDate ? `${formatShortDate(derived.bestDayDate)} · ${formatCompact(derived.bestDaySteps)} steps` : "—"}
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-nirvana-jade/10 to-transparent p-4">
+              <div className="rounded-2xl border border-white/[0.1] bg-gradient-to-r from-jade/10 to-transparent p-4">
                 <p className="text-xs text-white/55">Calories / active minute</p>
                 <p className="mt-1 text-base font-semibold text-white">{derived.caloriesPerActiveMinute.toFixed(2)} kcal</p>
               </div>
             </div>
 
-            <div className="mt-6 rounded-2xl border border-white/10 bg-nirvana-dark/35 p-4">
+            <div className="mt-6 rounded-2xl border border-white/[0.1] bg-white/[0.04] p-4">
               <p className="mb-4 text-xs uppercase tracking-wide text-white/50">Daily steps trend</p>
               <div className="grid grid-cols-7 gap-2 sm:grid-cols-10">
                 {fitness.points.map((point) => {
@@ -387,7 +399,7 @@ export default function FitAnalyticsPanel() {
                     <div key={point.metric_date} className="flex flex-col items-center gap-2">
                       <div className="flex h-28 w-full items-end">
                         <div
-                          className="w-full rounded-md bg-gradient-to-t from-nirvana-cyan/35 to-nirvana-jade/55"
+                          className="w-full rounded-md bg-gradient-to-t from-cyan/35 to-jade/55"
                           style={{ height: `${height}%` }}
                           title={`${point.steps.toLocaleString()} steps`}
                         />

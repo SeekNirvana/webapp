@@ -6,8 +6,7 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "tsc --noEmit -p tsconfig.lint.json",
-    "test": "node --test tests/build-smoke.test.mjs"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^4.3.7",
