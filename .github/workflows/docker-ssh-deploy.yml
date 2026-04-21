@@ -86,7 +86,7 @@ jobs:
     environment: prod
 
     steps:
-      - name: Deploy on custom server (SSH)
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -95,34 +95,47 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script_stop: true
           script: |
-            set -euo pipefail
+            set -euxo pipefail
 
-            IMAGE="ghcr.io/seeknirvana/seek-nirvana-webapp:latest"
+            IMAGE="ghcr.io/${{ github.repository_owner }}/seek-nirvana-webapp:latest"
             CONTAINER="seek-nirvana-webapp"
 
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            # login to GHCR
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+            # pull latest image
             docker pull "$IMAGE"
 
+            # create env file
+            mkdir -p /opt/seek-nirvana-webapp
+
+            cat <<EOF > /opt/seek-nirvana-webapp/.env
+            NODE_ENV=production
+            PORT=3000
+            NEXT_PUBLIC_REOWN_PROJECT_ID=${{ secrets.NEXT_PUBLIC_REOWN_PROJECT_ID }}
+            NEXT_PUBLIC_PROJECT_ID=${{ secrets.NEXT_PUBLIC_REOWN_PROJECT_ID }}
+            EOF
+
+            # remove old container if exists
             if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER}$"; then
               docker rm -f "$CONTAINER"
             fi
 
-            if [ -f "/opt/seek-nirvana-webapp/.env" ]; then
-              ENV_FILE_FLAG="--env-file /opt/seek-nirvana-webapp/.env"
-            else
-              ENV_FILE_FLAG=""
-            fi
+            # ensure traefik network exists
+            docker network inspect traefik >/dev/null 2>&1 || docker network create traefik
 
+            # run container
             docker run -d \
               --name "$CONTAINER" \
               --restart unless-stopped \
               --network traefik \
-              $ENV_FILE_FLAG \
+              --env-file /opt/seek-nirvana-webapp/.env \
               -l "traefik.enable=true" \
-              -l "traefik.http.routers.seeknirvana.rule=Host(\`seeknirvana.com\`)" \
+              -l 'traefik.http.routers.seeknirvana.rule=Host(`seeknirvana.com`)' \
               -l "traefik.http.routers.seeknirvana.entrypoints=websecure" \
               -l "traefik.http.routers.seeknirvana.tls.certresolver=le" \
               -l "traefik.http.services.seeknirvana.loadbalancer.server.port=3000" \
               "$IMAGE"
 
+            # cleanup
             docker image prune -f >/dev/null 2>&1 || true
