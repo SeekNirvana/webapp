@@ -115,8 +115,13 @@ jobs:
             docker run -d \
               --name "$CONTAINER" \
               --restart unless-stopped \
-              -p 3000:3000 \
+              --network traefik \
               $ENV_FILE_FLAG \
+              -l "traefik.enable=true" \
+              -l "traefik.http.routers.seeknirvana.rule=Host(`seeknirvana.com`)" \
+              -l "traefik.http.routers.seeknirvana.entrypoints=websecure" \
+              -l "traefik.http.routers.seeknirvana.tls.certresolver=le" \
+              -l "traefik.http.services.seeknirvana.loadbalancer.server.port=3000" \
               "$IMAGE"
 
             docker image prune -f >/dev/null 2>&1 || true
