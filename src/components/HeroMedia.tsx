@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface HeroMediaProps {
   scrollSectionId: string;
@@ -8,29 +8,95 @@ interface HeroMediaProps {
 
 const pad = (value: number) => String(value).padStart(4, "0");
 
+const MOBILE_BREAKPOINT = 768;
+const MOBILE_STEP = 3;
+
 export const HeroMedia = ({ scrollSectionId, frameCount }: HeroMediaProps) => {
-  const [frameIndex, setFrameIndex] = useState(1);
-  const initialFrame = useMemo(() => `/frames/frame-${pad(1)}.jpg`, []);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const canvas = canvasRef.current;
     const section = document.getElementById(scrollSectionId);
 
-    if (!section) {
-      return;
-    }
+    if (!canvas || !section) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const isMobile = () => window.innerWidth < MOBILE_BREAKPOINT;
+
+    // Build frame key list — mobile loads every Nth frame to cut bandwidth
+    const buildFrameKeys = () => {
+      const step = isMobile() ? MOBILE_STEP : 1;
+      const keys: number[] = [];
+      for (let i = 1; i <= frameCount; i += step) keys.push(i);
+      // Always include last frame for full scroll completion
+      if (keys[keys.length - 1] !== frameCount) keys.push(frameCount);
+      return keys;
+    };
+
+    let frameKeys = buildFrameKeys();
+    const loaded: HTMLImageElement[] = new Array(frameKeys.length);
+
+    const syncCanvasSize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+
+    const drawFrame = (keyIndex: number) => {
+      const img = loaded[keyIndex];
+      if (!img?.complete || !img.naturalWidth) return;
+      const { width: cw, height: ch } = canvas;
+      // object-cover: scale to fill, center crop
+      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const dw = img.naturalWidth * scale;
+      const dh = img.naturalHeight * scale;
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+    };
+
+    // Progressive loading: batch 0 = frames 0-9 (immediate), batch 1 = 10-49, batch 2 = rest
+    let loadedMobile = isMobile();
+    const loadBatch = (startIdx: number, endIdx: number, onDone?: () => void) => {
+      let pending = 0;
+      for (let i = startIdx; i < endIdx && i < frameKeys.length; i++) {
+        const idx = i;
+        const img = new Image();
+        img.decoding = "async";
+        img.src = `/frames/frame-${pad(frameKeys[idx])}.jpg`;
+        loaded[idx] = img;
+        pending++;
+        img.onload = img.onerror = () => {
+          pending--;
+          if (idx === 0) drawFrame(0); // paint first frame ASAP
+          if (pending === 0) onDone?.();
+        };
+      }
+      if (pending === 0) onDone?.();
+    };
+
+    const startLoading = () => {
+      // Batch 0: first 10 frames — immediate
+      loadBatch(0, 10, () => {
+        // Batch 1: frames 10-49 — idle
+        const scheduleB1 = () =>
+          loadBatch(10, 50, () => {
+            // Batch 2: rest — idle
+            const scheduleB2 = () => loadBatch(50, frameKeys.length);
+            "requestIdleCallback" in window
+              ? requestIdleCallback(scheduleB2)
+              : setTimeout(scheduleB2, 0);
+          });
+        "requestIdleCallback" in window
+          ? requestIdleCallback(scheduleB1)
+          : setTimeout(scheduleB1, 0);
+      });
+    };
 
     let rafId = 0;
     let targetProgress = 0;
     let currentProgress = 0;
     let lastTime = performance.now();
-
-    const preloadFrames = () => {
-      for (let index = 1; index <= frameCount; index += 1) {
-        const image = new Image();
-        image.decoding = "async";
-        image.src = `/frames/frame-${pad(index)}.jpg`;
-      }
-    };
+    let currentKeyIndex = 0;
 
     const updateBounds = () => {
       const start = section.offsetTop;
@@ -44,35 +110,55 @@ export const HeroMedia = ({ scrollSectionId, frameCount }: HeroMediaProps) => {
       lastTime = now;
       currentProgress += (targetProgress - currentProgress) * Math.min(1, dt * 10);
 
-      const nextFrame = Math.min(
-        frameCount,
-        Math.max(1, Math.round(currentProgress * (frameCount - 1)) + 1),
+      const nextKeyIndex = Math.min(
+        frameKeys.length - 1,
+        Math.max(0, Math.round(currentProgress * (frameKeys.length - 1))),
       );
 
-      setFrameIndex((previous) => (previous === nextFrame ? previous : nextFrame));
+      if (nextKeyIndex !== currentKeyIndex) {
+        currentKeyIndex = nextKeyIndex;
+        drawFrame(currentKeyIndex);
+      }
+
       rafId = window.requestAnimationFrame(animate);
     };
 
-    preloadFrames();
+    const onResize = () => {
+      syncCanvasSize();
+      drawFrame(currentKeyIndex);
+
+      // Rebuild frame set if mobile ↔ desktop threshold crossed
+      const nowMobile = isMobile();
+      if (nowMobile !== loadedMobile) {
+        loadedMobile = nowMobile;
+        frameKeys = buildFrameKeys();
+        currentKeyIndex = 0;
+        startLoading();
+      }
+    };
+
+    syncCanvasSize();
+    startLoading();
     updateBounds();
+
     window.addEventListener("scroll", updateBounds, { passive: true });
-    window.addEventListener("resize", updateBounds);
+    window.addEventListener("resize", onResize);
     rafId = window.requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("scroll", updateBounds);
-      window.removeEventListener("resize", updateBounds);
+      window.removeEventListener("resize", onResize);
       window.cancelAnimationFrame(rafId);
     };
   }, [frameCount, scrollSectionId]);
 
   return (
     <div className="absolute inset-0">
-      <img
-        src={frameIndex ? `/frames/frame-${pad(frameIndex)}.jpg` : initialFrame}
-        alt=""
+      <canvas
+        ref={canvasRef}
         aria-hidden="true"
-        className="h-full w-full object-cover"
+        className="h-full w-full"
+        style={{ display: "block" }}
       />
     </div>
   );
