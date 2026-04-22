@@ -36,7 +36,7 @@ export default function FitAnalyticsPanel() {
   const [refreshTick, setRefreshTick] = useState(0);
   const [fitnessLoading, setFitnessLoading] = useState(false);
   const [fitness, setFitness] = useState<FitnessSummary | null>(null);
-  const googleFitEnabled = process.env.NEXT_PUBLIC_ENABLE_GOOGLE_FIT === "true";
+  const googleFitEnabled = (process.env.NEXT_PUBLIC_ENABLE_GOOGLE_FIT ?? "").trim() === "true";
   const healthOn = Boolean(profile?.google_fit_connected_at);
   const instagramOn = Boolean(profile?.instagram_connected_at);
 

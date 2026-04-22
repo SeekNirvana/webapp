@@ -82,7 +82,7 @@ export function decryptSecret(cipherText: string): string {
 }
 
 export function isGoogleFitEnabled(): boolean {
-  return process.env.NEXT_PUBLIC_ENABLE_GOOGLE_FIT === "true";
+  return (process.env.NEXT_PUBLIC_ENABLE_GOOGLE_FIT ?? "").trim() === "true";
 }
 
 export function getGoogleFitConfig(): GoogleFitConfig {
