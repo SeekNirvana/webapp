@@ -6,18 +6,9 @@ import FloatingElement from "../animations/FloatingElement";
 import GlowEffect from "../animations/GlowEffect";
 
 const proofPoints = [
-  {
-    label: "प्रबोध",
-    text: "Track REM and readiness",
-  },
-  {
-    label: "संकेत",
-    text: "Recognize dreams with subtle cues",
-  },
-  {
-    label: "साधना",
-    text: "Follow a guided 5-day program",
-  },
+  { text: "Track REM and readiness" },
+  { text: "Recognize dreams with subtle cues" },
+  { text: "Follow a guided 5-day program" },
 ];
 
 export default function Hero() {
@@ -97,38 +88,26 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mx-auto max-w-4xl text-lg sm:text-2xl text-white/78 mb-6 leading-relaxed"
+          className="mx-auto max-w-2xl text-base sm:text-lg text-white/78 mb-6 leading-relaxed"
         >
           SeekNirvana helps you sleep better, remember more dreams, and build
           lucid dreaming foundations with a smart ring, subtle REM cues, and a
           guided program.
         </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mx-auto max-w-3xl text-base sm:text-lg text-white/58 mb-10 leading-relaxed"
-        >
-          A calmer, clearer way to work with sleep, dreams, and nighttime awareness.
-        </motion.p>
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mx-auto mb-10 grid max-w-4xl gap-3 text-left sm:grid-cols-3"
+          className="mx-auto mb-10 hidden sm:grid max-w-4xl gap-3 text-left sm:grid-cols-3"
         >
-          {proofPoints.map((point) => (
+          {proofPoints.map((point, i) => (
             <div
-              key={point.label}
-              className="rounded-2xl border border-white/[0.1] bg-white/[0.06] px-4 py-4 backdrop-blur-xl"
+              key={i}
+              className="rounded-2xl border border-white/[0.1] bg-white/[0.06] px-4 py-3 backdrop-blur-xl"
             >
-              <div className="mb-2 flex items-center gap-2 text-cyan">
-                <Sparkles className="h-4 w-4" />
-                <span className="text-xs text-white/45">
-                  {point.label}
-                </span>
+              <div className="mb-1 flex items-center gap-2 text-cyan">
+                <Sparkles className="h-3 w-3" />
               </div>
               <p className="text-sm leading-relaxed text-white/72">{point.text}</p>
             </div>
@@ -144,7 +123,7 @@ export default function Hero() {
         >
           <a
             href="/login"
-            className="group relative px-8 py-4 border border-white/15 bg-white/[0.08] transition-colors hover:bg-white/[0.12] rounded-full font-medium text-white overflow-hidden transition-transform hover:scale-105"
+            className="group relative px-5 py-2.5 border border-white/15 bg-white/[0.08] transition-colors hover:bg-white/[0.12] rounded-full font-medium text-white overflow-hidden transition-transform hover:scale-105"
           >
             <span className="relative z-10">Join Program</span>
             <motion.div
@@ -156,13 +135,13 @@ export default function Hero() {
           </a>
           <a
             href="/preorder"
-            className="px-8 py-4 rounded-full font-medium text-white/90 border border-gold/35 bg-white/[0.08] hover:border-gold/55 hover:bg-gold/15 transition-all"
+            className="px-5 py-2.5 rounded-full font-medium text-white/90 border border-gold/35 bg-white/[0.08] hover:border-gold/55 hover:bg-gold/15 transition-all"
           >
             Pre-order $99
           </a>
           <a
             href="#problem"
-            className="px-8 py-4 rounded-full font-medium text-white/80 border border-white/20 hover:border-cyan/50 hover:text-cyan transition-all"
+            className="px-5 py-2.5 rounded-full font-medium text-white/80 border border-white/20 hover:border-cyan/50 hover:text-cyan transition-all"
           >
             See How It Works
           </a>
