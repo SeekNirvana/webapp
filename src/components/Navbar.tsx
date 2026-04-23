@@ -43,23 +43,23 @@ export const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1 sm:px-6 md:py-1.5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:py-5">
         {/* Brand */}
         <Link href="/" className="group flex items-center">
           <img
             src="/SeekNirvana-logo.png"
             alt="Seek Nirvana"
-            className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
+            className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
           />
         </Link>
 
         {/* Desktop nav links */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
             >
               {item.label}
             </Link>
@@ -67,29 +67,29 @@ export const Navbar = () => {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-4 md:flex">
           <Link
             href="/preorder"
-            className="rounded-lg px-3 py-2 text-sm text-white/60 transition-colors hover:text-white"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-white/60 transition-colors hover:text-white"
           >
             Pre-order
           </Link>
           <Link
             href={ctaHref}
-            className="group/btn inline-flex items-center gap-2 rounded-full bg-jade px-4 py-2 text-sm font-medium text-navy-950 transition-all hover:brightness-110 glow-jade-sm"
+            className="group/btn inline-flex items-center gap-2 rounded-full bg-jade px-6 py-2.5 text-sm font-bold text-navy-950 transition-all hover:brightness-110 glow-jade-sm"
           >
             {ctaLabel}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
         </div>
 
         {/* Mobile menu button */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.06] text-white md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.06] text-white md:hidden"
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
