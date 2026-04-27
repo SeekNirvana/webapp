@@ -35,8 +35,8 @@ export default function AppScreenshotCarousel() {
   const activeScreen = screens[activeIndex];
 
   return (
-    <div className="mx-auto w-fit rounded-t-[2.5rem] rounded-b-[1.8rem] border border-white/20 bg-navy-950/80 pt-2 px-2 pb-1.5 shadow-2xl">
-      <div className="mx-auto w-full max-w-[270px] aspect-[576/1080] overflow-hidden rounded-t-[2.3rem] rounded-b-[1.3rem] border border-white/[0.15] bg-transparent">
+    <div className="mx-auto w-fit rounded-[2.5rem] border border-white/20 bg-navy-950/80 p-2 shadow-2xl">
+      <div className="mx-auto w-full max-w-[270px] aspect-[9/18.5] overflow-hidden rounded-[2.5rem] border border-white/[0.15] bg-transparent">
         <AnimatePresence mode="wait">
           <motion.img
             key={activeScreen.src}
