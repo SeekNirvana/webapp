@@ -8,7 +8,7 @@ export default function FeaturedVideoSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="bg-transparent pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden relative">
+    <section className="bg-transparent pt-4 md:pt-6 pb-12 md:pb-16 px-6 overflow-hidden relative">
       <div className="max-w-6xl mx-auto">
         <motion.div 
           ref={ref}

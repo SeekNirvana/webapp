@@ -9,7 +9,7 @@ export default function AboutSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="bg-transparent pt-32 md:pt-44 pb-10 md:pb-14 px-6 overflow-hidden relative">
+    <section ref={ref} className="bg-transparent pt-16 md:pt-24 pb-8 md:pb-12 px-6 overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.03)_0%,_transparent_70%)] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">

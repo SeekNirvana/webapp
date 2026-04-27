@@ -26,7 +26,7 @@ export default function ServicesSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="bg-transparent py-28 md:py-40 px-6 overflow-hidden relative">
+    <section className="bg-transparent py-16 md:py-24 px-6 overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.02)_0%,_transparent_60%)] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">

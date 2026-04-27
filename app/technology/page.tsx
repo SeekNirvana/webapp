@@ -145,14 +145,14 @@ export default function TechnologyPage() {
       
       <FeaturedVideoSection />
 
-      <section className="px-6 py-20 md:py-32 relative overflow-hidden">
+      <section className="px-6 py-12 md:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <BentoStackCards />
         </div>
       </section>
 
       {/* ── SECTION 3.5: MOBILE ECOSYSTEM ── */}
-      <section className="bg-transparent py-28 md:py-40 px-6 overflow-hidden relative border-y border-white/5">
+      <section className="bg-transparent py-16 md:py-24 px-6 overflow-hidden relative border-y border-white/5">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-10 lg:gap-20 items-center">
           <div className="space-y-12">
             <div className="space-y-6">
@@ -193,7 +193,7 @@ export default function TechnologyPage() {
 
       <PhilosophySection />
       
-      <section className="px-6 py-20 md:py-32 relative overflow-hidden">
+      <section className="px-6 py-12 md:py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <LocalModelSection />
         </div>
