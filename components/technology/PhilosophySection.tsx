@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import FadeIn from '../animations/FadeIn'
+import LazyVideo from '../animations/LazyVideo'
 
 export default function PhilosophySection() {
   return (
@@ -41,17 +42,11 @@ export default function PhilosophySection() {
           </div>
 
           <FadeIn delay={0.3} direction="right" className="rounded-3xl overflow-hidden aspect-[4/3] order-1 md:order-2 shadow-2xl shadow-cyan-900/10 border border-white/10">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
+            <LazyVideo
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"
               poster="/images/tech-philosophy-poster.webp"
               className="w-full h-full object-cover bg-black"
-            >
-              <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4" />
-            </video>
+            />
           </FadeIn>
         </div>
       </div>

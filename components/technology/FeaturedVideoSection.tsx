@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import FadeIn from '../animations/FadeIn'
+import LazyVideo from '../animations/LazyVideo'
 
 export default function FeaturedVideoSection() {
   return (
@@ -9,17 +10,11 @@ export default function FeaturedVideoSection() {
       <div className="max-w-6xl mx-auto">
         <FadeIn direction="up" duration={1}>
           <div className="rounded-[2.5rem] overflow-hidden aspect-[4/5] sm:aspect-video relative group border border-white/10">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
+            <LazyVideo
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4"
               poster="/images/tech-featured-poster.webp"
               className="w-full h-full object-cover bg-black"
-            >
-              <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4" type="video/mp4" />
-            </video>
+            />
             
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

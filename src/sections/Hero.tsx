@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useAccount } from "wagmi";
 import { WordsPullUp } from "../components/WordsPullUp";
 import { heroProofPoints } from "../content/homepage";
+import LazyVideo from "@/components/animations/LazyVideo";
 
 export const Hero = () => {
   const customEase = [0.16, 1, 0.3, 1] as const;
@@ -16,28 +17,18 @@ export const Hero = () => {
     <section id="hero" className="relative h-screen w-full overflow-hidden bg-navy-950" aria-label="Seek Nirvana hero">
       {/* Background Video - Desktop */}
       <div className="absolute inset-0 h-full w-full hidden md:block">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        <LazyVideo
+          src="/videos/nirvana-video1.mp4"
           className="h-full w-full object-cover"
-        >
-          <source src="/videos/nirvana-video1.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Background Video - Mobile */}
       <div className="absolute inset-0 h-full w-full md:hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        <LazyVideo
+          src="/videos/Nirvana_mobile-video.mp4"
           className="h-full w-full object-cover"
-        >
-          <source src="/videos/Nirvana_mobile-video.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Overlays — refined for clarity and sharpness */}

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import FadeIn from '../animations/FadeIn'
 import { ArrowUpRight } from 'lucide-react'
+import LazyVideo from '../animations/LazyVideo'
 
 const services = [
   {
@@ -42,17 +43,11 @@ export default function ServicesSection() {
               className="glass-card rounded-3xl overflow-hidden group cursor-pointer"
             >
               <div className="aspect-video relative overflow-hidden">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
+                  <LazyVideo
+                    src={service.video}
                     poster={service.poster}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-black"
-                  >
-                  <source src={service.video} type="video/mp4" />
-                </video>
+                  />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
 
