@@ -91,42 +91,52 @@ export const Navbar = () => {
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              className="mt-4 lg:hidden"
-            >
-              <div className="liquid-glass rounded-3xl p-5 border-white/5 flex flex-col gap-5">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-lg font-medium text-white/70 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <div className="h-px bg-white/5 w-full" />
-                <div className="flex flex-col gap-3">
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileOpen(false)}
-                    className="text-white/60 text-center py-2"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href={ctaHref}
-                    onClick={() => setMobileOpen(false)}
-                    className="liquid-glass rounded-full py-3 text-center text-jade-light font-bold border-jade/20 bg-jade/10"
-                  >
-                    {ctaLabel}
-                  </Link>
+            <>
+              {/* Dark Vignette Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileOpen(false)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[-1] pointer-events-auto lg:hidden"
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                className="mt-4 lg:hidden"
+              >
+                <div className="liquid-glass rounded-3xl p-5 border-white/5 flex flex-col gap-5">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="text-lg font-medium text-white/70 hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                  <div className="h-px bg-white/5 w-full" />
+                  <div className="flex flex-col gap-3">
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-white/60 text-center py-2"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href={ctaHref}
+                      onClick={() => setMobileOpen(false)}
+                      className="liquid-glass rounded-full py-3 text-center text-jade-light font-bold border-jade/20 bg-jade/10"
+                    >
+                      {ctaLabel}
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>

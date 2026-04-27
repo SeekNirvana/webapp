@@ -230,6 +230,7 @@ export const footerGroups = {
 
 export const footerSocials = [
   { label: "X", href: "https://x.com/SeekNirvanaHQ" },
+  { label: "Instagram", href: "https://instagram.com/seeknirvanaHQ" },
   { label: "GitHub", href: "https://github.com/seekNirvana" },
   { label: "YouTube", href: "https://www.youtube.com/@SeekNirvanaOfficial" },
   { label: "Telegram", href: "https://t.me/SeekNirvanaHQ" },

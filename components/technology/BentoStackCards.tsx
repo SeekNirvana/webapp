@@ -96,8 +96,8 @@ export default function BentoStackCards() {
           ))}
         </div>
 
-        <h2 className="mt-6 text-3xl font-bold text-white sm:text-4xl">
-          A Living, Breathing Feedback Loop
+        <h2 className="mt-6 text-4xl md:text-5xl text-white font-['Instrument_Serif'] tracking-tight">
+          A Living, <em className="italic text-white/60">Breathing</em> Feedback Loop
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/58 sm:text-lg">
           Unlike static dashboards, Seek Nirvana creates a closed-loop system
@@ -115,7 +115,7 @@ export default function BentoStackCards() {
         ].map((line) => (
           <div
             key={line}
-            className="flex items-start gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3"
+            className="flex items-start gap-2.5 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-4 py-3"
           >
             <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
             <p className="text-sm text-white/65">{line}</p>
@@ -135,7 +135,7 @@ export default function BentoStackCards() {
             ref={(el) => {
               cardRefs.current[i] = el;
             }}
-            className={`bento-card group relative overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.06] p-6 backdrop-blur-xl sm:p-7`}
+            className={`bento-card group relative overflow-hidden rounded-3xl glass-card p-6 sm:p-7`}
             style={{
               animationDelay: `${i * 0.12}s`,
               animationPlayState: "paused",
@@ -153,7 +153,7 @@ export default function BentoStackCards() {
               </span>
 
               {/* icon */}
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.08]">
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.08]">
                 <card.icon className={`h-5 w-5 ${card.iconColor}`} />
               </div>
 
@@ -167,7 +167,7 @@ export default function BentoStackCards() {
       </div>
 
       {/* Epoch signal bar */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.06] p-5 backdrop-blur-xl">
+      <div className="mt-6 overflow-hidden rounded-3xl glass-card p-5">
         <div className="flex items-center gap-3">
           {Array.from({ length: 5 }).map((_, index) => (
             <div

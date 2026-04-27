@@ -21,6 +21,8 @@ import AppScreenshotCarousel from "@/components/technology/AppScreenshotCarousel
 import FeaturedVideoSection from '@/components/technology/FeaturedVideoSection'
 import PhilosophySection from '@/components/technology/PhilosophySection'
 import ServicesSection from '@/components/technology/ServicesSection'
+import BentoStackCards from '@/components/technology/BentoStackCards'
+import LocalModelSection from '@/components/technology/LocalModelSection'
 import GlowEffect from '@/components/animations/GlowEffect'
 
 export default function TechnologyPage() {
@@ -116,11 +118,11 @@ export default function TechnologyPage() {
         <div className="relative z-10 flex justify-center gap-4 pb-12">
           {[
             { Icon: Twitter, href: "https://x.com/SeekNirvanaHQ" },
+            { Icon: Instagram, href: "https://instagram.com/seeknirvanaHQ" },
             { Icon: Github, href: "https://github.com/seekNirvana" },
             { Icon: Youtube, href: "https://www.youtube.com/@SeekNirvanaOfficial" },
             { Icon: Send, href: "https://t.me/SeekNirvanaHQ" },
-            { Icon: Mail, href: "mailto:info@seeknirvana.com" },
-            { Icon: Instagram, href: "#" }
+            { Icon: Mail, href: "mailto:info@seeknirvana.com" }
           ].map((social, i) => (
             <motion.a
               key={i}
@@ -140,11 +142,18 @@ export default function TechnologyPage() {
 
       {/* ── SECTIONS 2-5 ── */}
       <AboutSection />
+      
       <FeaturedVideoSection />
+
+      <section className="px-6 py-20 md:py-32 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <BentoStackCards />
+        </div>
+      </section>
 
       {/* ── SECTION 3.5: MOBILE ECOSYSTEM ── */}
       <section className="bg-transparent py-28 md:py-40 px-6 overflow-hidden relative border-y border-white/5">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-20 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-10 lg:gap-20 items-center">
           <div className="space-y-12">
             <div className="space-y-6">
               <span className="text-white/40 text-xs tracking-[0.3em] uppercase block">
@@ -174,30 +183,22 @@ export default function TechnologyPage() {
               ))}
             </div>
 
-            <div className="flex gap-4 opacity-40">
-              {[
-                { name: "App Store", icon: "" },
-                { name: "Google Play", icon: "▶" },
-                { name: "Solana dApp Store", icon: "◎" }
-              ].map((badge) => (
-                <div key={badge.name} className="liquid-glass rounded-xl px-4 py-2 flex items-center gap-2 border-white/10">
-                  <span className="text-lg">{badge.icon}</span>
-                  <span className="text-[10px] uppercase tracking-widest">{badge.name}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-20 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
-            <div className="liquid-glass rounded-[40px] p-4 border-white/10">
-              <AppScreenshotCarousel />
-            </div>
+          <div className="relative flex justify-center">
+            <AppScreenshotCarousel />
           </div>
         </div>
       </section>
 
       <PhilosophySection />
+      
+      <section className="px-6 py-20 md:py-32 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <LocalModelSection />
+        </div>
+      </section>
+
       <ServicesSection />
 
       {/* ── FINAL FOOTER ── */}
