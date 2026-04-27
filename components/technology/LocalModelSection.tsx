@@ -88,8 +88,8 @@ export default function LocalModelSection() {
             <p className="text-sm uppercase tracking-[0.28em] text-white/35">
               Local SLM stack
             </p>
-            <h2 className="mt-3 text-4xl md:text-5xl text-white font-['Instrument_Serif'] tracking-tight">
-              Gemma 4 E4B — <em className="italic text-white/60">two fine-tunes, one device</em>
+            <h2 className="mt-3 text-4xl md:text-5xl text-white tracking-tight">
+              Gemma 4 E4B — <span className="gradient-text">two fine-tunes, one device</span>
             </h2>
             <p className="mt-2 max-w-lg text-sm text-white/45">
               Both the Soul and Body layers run the same base architecture with

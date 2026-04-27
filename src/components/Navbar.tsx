@@ -37,7 +37,7 @@ export const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] px-6 py-6 pointer-events-none">
       <div className="max-w-6xl mx-auto pointer-events-auto">
-        <div className={`liquid-glass rounded-full px-6 py-2.5 flex items-center justify-between border-white/5 transition-all duration-500 ${scrolled ? 'bg-black/40 backdrop-blur-2xl' : ''}`}>
+        <div className={`glass-card rounded-full px-6 py-2.5 flex items-center justify-between border-white/10 transition-all duration-500 ${scrolled ? 'bg-black/60 backdrop-blur-2xl' : ''}`}>
           {/* Brand */}
           <Link href="/" className="flex items-center group">
             <img
@@ -72,7 +72,7 @@ export const Navbar = () => {
             </Link>
             <Link
               href={ctaHref}
-              className="liquid-glass rounded-full px-6 py-2.5 text-white text-sm font-medium hover:bg-jade/30 transition-all border-jade/20 bg-jade/10 flex items-center gap-2 group shadow-[0_0_20px_rgba(0,168,107,0.1)]"
+              className="glass-card rounded-full px-6 py-2.5 text-white text-sm font-medium hover:bg-jade/20 transition-all border-jade/30 bg-jade/10 flex items-center gap-2 group shadow-[0_0_20px_rgba(0,168,107,0.1)]"
             >
               <span className="text-jade-light font-bold tracking-tight">{ctaLabel}</span>
               <ArrowRight className="h-4 w-4 text-jade-light transition-transform group-hover:translate-x-0.5" />
@@ -106,7 +106,7 @@ export const Navbar = () => {
                 exit={{ opacity: 0, y: -20, scale: 0.95 }}
                 className="mt-4 lg:hidden"
               >
-                <div className="liquid-glass rounded-3xl p-5 border-white/5 flex flex-col gap-5">
+                <div className="glass-card rounded-3xl p-5 border-white/10 flex flex-col gap-5">
                   {navItems.map((item) => (
                     <Link
                       key={item.label}
@@ -129,7 +129,7 @@ export const Navbar = () => {
                     <Link
                       href={ctaHref}
                       onClick={() => setMobileOpen(false)}
-                      className="liquid-glass rounded-full py-3 text-center text-jade-light font-bold border-jade/20 bg-jade/10"
+                      className="glass-card rounded-full py-3 text-center text-jade-light font-bold border-jade/30 bg-jade/10"
                     >
                       {ctaLabel}
                     </Link>

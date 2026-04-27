@@ -1,17 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
-  Instagram,
-  Twitter,
-  ArrowUpRight,
   Smartphone,
-  Github,
-  Youtube,
-  Send,
-  Mail
 } from 'lucide-react'
 import { Navbar } from "@/src/components/Navbar";
 import { Footer } from "@/src/sections/Footer";
@@ -26,22 +19,6 @@ import LocalModelSection from '@/components/technology/LocalModelSection'
 import GlowEffect from '@/components/animations/GlowEffect'
 
 export default function TechnologyPage() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  // Simplified video logic - remove opacity fade that causes blank screen
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.play().catch(e => console.log("Auto-play blocked", e))
-
-    const handleEnded = () => {
-      video.currentTime = 0
-      video.play()
-    }
-
-    video.addEventListener('ended', handleEnded)
-    return () => video.removeEventListener('ended', handleEnded)
-  }, [])
 
   return (
     <div className="aurora-bg mandala-pattern min-h-screen text-white selection:bg-white/20 relative overflow-x-hidden">
@@ -73,18 +50,6 @@ export default function TechnologyPage() {
 
       {/* ── SECTION 1: HERO ── */}
       <section className="relative min-h-screen flex flex-col overflow-hidden">
-        {/* Background Video */}
-        <video
-          ref={videoRef}
-          muted
-          autoPlay
-          playsInline
-          preload="auto"
-          poster="/images/tech-hero-poster.webp"
-          className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
-        >
-          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4" type="video/mp4" />
-        </video>
 
         {/* Hero Content - Adjusted for Right Alignment of Video focus */}
         <div className="relative z-10 flex-1 flex flex-col items-center lg:items-start justify-center px-6 text-center lg:text-left pt-20 pb-24 max-w-7xl mx-auto w-full">
@@ -95,8 +60,8 @@ export default function TechnologyPage() {
             className="space-y-8"
           >
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl text-white tracking-tight font-['Instrument_Serif'] max-w-5xl leading-[0.95] pt-6">
-              Technology that understands your <em className="italic gradient-text pr-2">inner</em> world.
+            <h1 className="text-5xl md:text-7xl lg:text-8xl text-white tracking-tight max-w-5xl leading-[0.95] pt-6">
+              Technology that understands your <span className="gradient-text">inner</span> world.
             </h1>
 
             <p className="text-white text-lg md:text-xl leading-relaxed max-w-2xl lg:max-w-xl mx-auto lg:ml-0 font-light">
@@ -104,7 +69,7 @@ export default function TechnologyPage() {
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-6">
-              <Link href="/preorder" className="liquid-glass rounded-full px-10 py-4 text-white text-sm font-medium hover:bg-white/5 transition-all border-white/5">
+              <Link href="/preorder" className="glass-card rounded-full px-10 py-4 text-white text-sm font-medium hover:bg-white/10 transition-all">
                 Get Early Access
               </Link>
               <Link href="/programs/5-day-sleep-cohort" className="text-white/60 hover:text-white text-sm font-medium flex items-center gap-2 transition-colors">
@@ -114,30 +79,6 @@ export default function TechnologyPage() {
           </motion.div>
         </div>
 
-        {/* Social Icons Footer */}
-        <div className="relative z-10 flex justify-center gap-4 pb-12">
-          {[
-            { Icon: Twitter, href: "https://x.com/SeekNirvanaHQ" },
-            { Icon: Instagram, href: "https://instagram.com/seeknirvanaHQ" },
-            { Icon: Github, href: "https://github.com/seekNirvana" },
-            { Icon: Youtube, href: "https://www.youtube.com/@SeekNirvanaOfficial" },
-            { Icon: Send, href: "https://t.me/SeekNirvanaHQ" },
-            { Icon: Mail, href: "mailto:info@seeknirvana.com" }
-          ].map((social, i) => (
-            <motion.a
-              key={i}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3 + (i * 0.1) }}
-              className="liquid-glass rounded-full p-4 text-white/60 hover:text-white hover:bg-white/5 hover:-translate-y-1 transition-all border-white/5 flex items-center justify-center"
-            >
-              <social.Icon className="h-5 w-5" />
-            </motion.a>
-          ))}
-        </div>
       </section>
 
       {/* ── SECTIONS 2-5 ── */}
@@ -159,8 +100,8 @@ export default function TechnologyPage() {
               <span className="text-white/40 text-xs tracking-[0.3em] uppercase block">
                 Mobile Ecosystem
               </span>
-              <h2 className="text-4xl md:text-6xl text-white font-['Instrument_Serif'] tracking-tight">
-                Your world, <em className="italic text-white/60">visualized.</em>
+              <h2 className="text-4xl md:text-6xl text-white tracking-tight">
+                Your world, <span className="gradient-text">visualized.</span>
               </h2>
               <p className="text-white/60 text-lg leading-relaxed max-w-xl">
                 The app is where raw ring data becomes practice. It lets users review epochs, receive yoga and breathwork timing, journal their inner state, and get private Soul and Body layer guidance.

@@ -89,7 +89,7 @@ export default function BiohackingStats() {
     <div className="grid gap-16 lg:grid-cols-[0.6fr_1fr] lg:items-center">
       {/* Left — animated stats */}
       <div>
-        <span className="mb-6 block text-sm uppercase tracking-[0.3em] text-cyan">
+        <span className="mb-6 block text-sm uppercase tracking-[0.3em] text-gold">
           Biohacking Layer
         </span>
         <div className="space-y-8">
@@ -126,8 +126,8 @@ export default function BiohackingStats() {
           Small changes, measured precisely, compound into transformative
           states.
         </p>
-        <p className="mt-10 font-['Instrument_Serif'] italic text-2xl text-white/70 sm:text-3xl">
-          "No noise. No trends. Just signal."
+        <p className="mt-10 italic text-2xl text-white/70 sm:text-3xl">
+          "No noise. No trends. <span className="gradient-text">Just signal.</span>"
         </p>
       </div>
     </div>

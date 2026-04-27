@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
+import FadeIn from '../animations/FadeIn'
 import { ArrowUpRight } from 'lucide-react'
 
 const services = [
@@ -22,37 +22,24 @@ const services = [
 ]
 
 export default function ServicesSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-
   return (
     <section className="bg-transparent py-16 md:py-24 px-6 overflow-hidden relative">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.02)_0%,_transparent_60%)] pointer-events-none" />
-
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="flex items-end justify-between mb-16 md:mb-24"
-        >
+        <FadeIn className="flex items-end justify-between mb-16 md:mb-24">
           <h2 className="text-3xl md:text-5xl text-white tracking-tight">
-            How we guide
+            How we <span className="gradient-text">guide</span>
           </h2>
-          <span className="text-white/40 text-sm hidden md:block uppercase tracking-widest">
+          <span className="text-gold text-sm hidden md:block uppercase tracking-widest">
             Specialized Layers
           </span>
-        </motion.div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {services.map((service, i) => (
-            <motion.div
+            <FadeIn
               key={i}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.15 * (i + 1) }}
-              className="liquid-glass rounded-3xl overflow-hidden group cursor-pointer"
+              delay={0.2 * (i + 1)}
+              className="glass-card rounded-3xl overflow-hidden group cursor-pointer"
             >
               <div className="aspect-video relative overflow-hidden">
                   <video
@@ -62,7 +49,7 @@ export default function ServicesSection() {
                     playsInline
                     preload="auto"
                     poster={service.poster}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-black"
                   >
                   <source src={service.video} type="video/mp4" />
                 </video>
@@ -74,7 +61,7 @@ export default function ServicesSection() {
                   <span className="uppercase tracking-[0.3em] text-white/40 text-[10px] md:text-xs">
                     {service.tag}
                   </span>
-                  <div className="liquid-glass rounded-full p-2 text-white/60 group-hover:text-white transition-colors">
+                  <div className="glass-card rounded-full p-2 text-white/60 group-hover:text-white group-hover:bg-white/10 transition-colors">
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
                 </div>
@@ -85,7 +72,7 @@ export default function ServicesSection() {
                   {service.description}
                 </p>
               </div>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </div>

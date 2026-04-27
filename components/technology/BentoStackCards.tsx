@@ -81,7 +81,7 @@ export default function BentoStackCards() {
     <div>
       {/* Section header */}
       <div className="mb-10">
-        <span className="block text-sm uppercase tracking-[0.3em] text-cyan">
+        <span className="block text-sm uppercase tracking-[0.3em] text-gold">
           Real-Time Intelligence
         </span>
 
@@ -96,8 +96,8 @@ export default function BentoStackCards() {
           ))}
         </div>
 
-        <h2 className="mt-6 text-4xl md:text-5xl text-white font-['Instrument_Serif'] tracking-tight">
-          A Living, <em className="italic text-white/60">Breathing</em> Feedback Loop
+        <h2 className="mt-6 text-4xl md:text-5xl text-white tracking-tight">
+          A Living, <span className="gradient-text">Breathing</span> Feedback Loop
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/58 sm:text-lg">
           Unlike static dashboards, Seek Nirvana creates a closed-loop system
